@@ -3,13 +3,19 @@ import CardMedia from "@mui/material/CardMedia";
 import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import { Box, Grid, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { grey } from "@mui/material/colors";
+import { VideoPropType } from "../../utils/types";
 
-export default function Video() {
+export default function Video({
+  id,
+  channel,
+  publishTime,
+  imageUrl,
+  title,
+}: VideoPropType) {
   return (
-    <div className="grid-layout">
+    <div className="grid-layout" id={id}>
       <Card
         sx={{
           maxWidth: 290,
@@ -20,27 +26,30 @@ export default function Video() {
         <CardMedia
           component="img"
           height="155"
-          image="https://images.pexels.com/photos/14711370/pexels-photo-14711370.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          image={imageUrl}
           alt="video alt"
           sx={{ borderRadius: "1rem" }}
         />
         <CardActions disableSpacing sx={{ padding: 0 }}>
           <Avatar sx={{ ml: "5px", marginRight: "8px" }} />
           <Stack sx={{ marginTop: "5px" }}>
-            <Typography variant="h6" sx={{ color: "white" }}>
-              new video
+            <Typography
+              variant="body2"
+              sx={{ color: "white", fontSize: "15px" }}
+            >
+              {title.substring(0, 10)}
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{ color: "grey", fontSize: "12px", py: 1 }}
+            >
+              {channel} <CheckCircleIcon sx={{ fontSize: 10 }} />
             </Typography>
             <Typography
               variant="body2"
               sx={{ color: "grey", fontSize: "12px" }}
             >
-              Maroon 5 <CheckCircleIcon sx={{ fontSize: 10 }} />
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{ color: "grey", fontSize: "12px" }}
-            >
-              25-06-2019
+              {publishTime}
             </Typography>
           </Stack>
         </CardActions>

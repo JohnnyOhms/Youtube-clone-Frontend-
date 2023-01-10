@@ -10,7 +10,7 @@ const Category = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(videoAPI(`search`));
+    dispatch(videoAPI(`search?part=snippet,id&q=${categoryName}`));
   }, [dispatch]);
   const category = CategoryItem.map((item, index) => {
     return (
@@ -23,7 +23,7 @@ const Category = () => {
         onClick={(e: React.MouseEvent<HTMLSpanElement>) => {
           setCategoryName(item);
           setSearchParams({ filter: item });
-          // dispatch(videoAPI(`search`));
+          dispatch(videoAPI(`search?part=snippet,id&q=${item}`));
         }}
         key={index}
       >

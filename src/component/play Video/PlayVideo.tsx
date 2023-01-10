@@ -63,18 +63,7 @@ const PlayVideo = () => {
           </Stack>
         </div>
         <div className="related-videos">
-          <Stack spacing={2}>
-            <Video />
-            <Video />
-            <Video />
-            <Video />
-            <Video />
-            <Video />
-            <Video />
-            <Video />
-            <Video />
-            <Video />
-          </Stack>
+          <Stack spacing={2}>{/* <Video /> */}</Stack>
         </div>
       </Stack>
     </div>

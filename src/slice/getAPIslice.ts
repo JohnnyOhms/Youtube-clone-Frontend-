@@ -1,27 +1,18 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import { DisplayVideoType } from "../utils/types";
 
 const APIlink: string = "https://youtube-v31.p.rapidapi.com";
-const options = {
-  params: {
-    q: "music",
-    part: "snippet,id",
-    regionCode: "US",
-    order: "date",
-    maxResults: "50",
-  },
-};
 
 export type requestType<T> = T | null;
 
+type responseType = DisplayVideoType[];
+
 export const videoAPI = createAsyncThunk(
   "videos/videoAPI",
-  async (req: requestType<string>) => {
-    const response: object = await axios.get(`${APIlink}/${req}`, {
+  async (req: requestType<string>, thunkAPI) => {
+    const response = await axios.get(`${APIlink}/${req}`, {
       params: {
-        q: "All",
-        part: "snippet,id",
-        regionCode: "US",
         maxResults: "50",
       },
       headers: {
@@ -29,13 +20,14 @@ export const videoAPI = createAsyncThunk(
         "X-RapidAPI-Host": "youtube-v31.p.rapidapi.com",
       },
     });
-
-    return response;
+    return response.data.items;
   }
 );
 
+type videoResult<T> = T | responseType;
+
 interface initIalStateType {
-  videoResult: null | object;
+  videoResult: videoResult<null>;
   loading: Boolean;
   erroMssg: string;
 }
@@ -56,7 +48,7 @@ const VideoSlice = createSlice({
     });
     builder.addCase(
       videoAPI.fulfilled,
-      (state, Action: PayloadAction<object>) => {
+      (state, Action: PayloadAction<responseType>) => {
         state.loading = false;
         state.videoResult = Action.payload;
       }
