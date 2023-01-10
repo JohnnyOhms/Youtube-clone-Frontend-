@@ -137,7 +137,7 @@ function Navbar() {
   );
 
   return (
-    <Stack position="fixed" sx={{top:"0", left: "0", position: "fixed", width: "100vw" }}>
+    <Stack position="fixed" sx={{top:"0", left: "0", position: "fixed", width: "100vw", zIndex:2 }}>
     <AppBar position="static">
         <Toolbar>  
           <IconButton

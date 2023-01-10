@@ -1,0 +1,17 @@
+.video-section{
+    background-color: inherit;
+    width: 80vw;
+    height: 100vh;
+    margin-left: 16vw;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    column-gap: 2px;
+}
+
+.grid-layout{
+    margin-bottom: 15px;
+    background-color: inherit;
+    height: 230px;
+    width: 290px;
+    max-width: 290px;
+}

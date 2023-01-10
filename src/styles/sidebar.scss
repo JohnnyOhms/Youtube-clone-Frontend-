@@ -1,0 +1,49 @@
+.wrapper .sidebar {
+    background: inherit;
+    position: fixed;
+    // border-right: 0.5px solid grey;
+    top: 4rem;
+    left: 0;
+    width: 225px;
+    height: 100vh;
+    padding: 20px 0;
+    transition: all 0.5s ease;
+}
+
+.wrapper .sidebar ul li a {
+    display: block;
+    padding: 9px 30px;
+    color: rgb(241, 237, 237);
+    font-size: 16px;
+    position: relative;
+    margin: 6px;
+    display: flex;
+}
+
+.wrapper .sidebar ul li a .item{
+    padding: 0 6px;
+}
+
+.wrapper .sidebar ul li a .icon {
+    color: #dee4ec;
+    width: 30px;
+    display: inline-block;
+    text-align: center;
+}
+
+.wrapper .sidebar ul li a:hover {
+    color: #dee4ec;
+    background: grey;
+    border-right: 2px solid #000;
+    border-radius: 10px;
+
+}
+
+.wrapper .sidebar ul li a:hover .icon {
+    color: #dee4ec
+}
+
+.wrapper .sidebar ul li a:hover:before,
+.wrapper .sidebar ul li a.active:before {
+    display: block;
+}

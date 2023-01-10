@@ -1,5 +1,46 @@
 .Category{
-    // width: 225px - 100vw;
-    width: calc(50vw - 100vw);
-    background: black;
+    width: 80vw;
+    height: 50px;
+    margin-left: 16vw;
+    margin-top: 12vh;
+    padding-bottom: 3.8rem;
+    background: inherit;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    &::-webkit-scrollbar {
+        width: 3px;
+        height: 3px;
+        /* width of the entire scrollbar */
+    }
+
+    &::-webkit-scrollbar-track {
+        background: inherit;
+        /* color of the tracking area */
+        height: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: grey;
+        /* color of the scroll thumb */
+        border-radius: 10px;
+        /* roundness of the scroll thumb */
+        border: 1px solid rgb(86, 80, 80);;
+        /* creates padding around scroll thumb */
+        }
+
+    &__section{
+        background-color: #565050;
+        color: #fff;
+        height: 32px;
+        margin: 5px 10px;
+        padding: 5px 10px;
+        border-radius: 10px;
+        cursor: pointer;
+
+        &:hover{
+            background-color: grey;
+        }
+    }
 }
