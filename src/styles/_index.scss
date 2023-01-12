@@ -2,7 +2,8 @@
 @import "./category.scss";
 @import "./videoSection.scss";
 @import "./playVideo.scss";
-
+@import "./loader.scss";
+@import "./lazyloader.scss";
 * {
   list-style: none;
   text-decoration: none;
@@ -17,3 +18,16 @@ body {
   overflow-x: hidden;
 }
 
+.error-mssg{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+
+    P{
+      margin: auto;
+      color: white;
+      font-family: inherit;
+      font-size: 20px;
+    }
+}

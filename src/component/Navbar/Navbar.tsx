@@ -1,61 +1,62 @@
-import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MoreIcon from '@mui/icons-material/MoreVert';
-import YouTubeIcon from '@mui/icons-material/YouTube';
-import { red } from '@mui/material/colors';
-import { Stack } from '@mui/material';
-import MicOffIcon from '@mui/icons-material/MicOff';
+import * as React from "react";
+import { styled, alpha } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import InputBase from "@mui/material/InputBase";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import MoreIcon from "@mui/icons-material/MoreVert";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import { red } from "@mui/material/colors";
+import { Stack } from "@mui/material";
+import MicOffIcon from "@mui/icons-material/MicOff";
+import { Link, Outlet } from "react-router-dom";
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
   borderRadius: "20px",
   backgroundColor: alpha(theme.palette.common.white, 0.15),
-   marginLeft: " 20px",
-  '&:hover': {
+  marginLeft: " 20px",
+  "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginRight: theme.spacing(2),
-    width: '100%',
-  [theme.breakpoints.up('sm')]: {
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),
-    width: 'auto',
+    width: "auto",
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-    justifyContent: 'center',
-  right: 0
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  right: 0,
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
+  color: "inherit",
+  "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
     },
   },
-} ) );
+}));
 
 function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -82,19 +83,19 @@ function Navbar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const menuId = 'primary-search-account-menu';
+  const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       id={menuId}
       keepMounted
       transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
@@ -104,19 +105,19 @@ function Navbar() {
     </Menu>
   );
 
-  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       id={mobileMenuId}
       keepMounted
       transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
@@ -137,9 +138,12 @@ function Navbar() {
   );
 
   return (
-    <Stack position="fixed" sx={{top:"0", left: "0", position: "fixed", width: "100vw", zIndex:2 }}>
-    <AppBar position="static">
-        <Toolbar>  
+    <Stack
+      position="fixed"
+      sx={{ top: "0", left: "0", position: "fixed", width: "100vw", zIndex: 2 }}
+    >
+      <AppBar position="static">
+        <Toolbar>
           <IconButton
             size="large"
             edge="start"
@@ -147,30 +151,52 @@ function Navbar() {
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
-            <YouTubeIcon sx={{ fontSize: "50px", color: red[500], zIndex: 1 }} />
-            <div style={{width: "20px", height: "20px", background: "#ffff", position: "absolute",}}></div>
+            <Link to="/" style={{ zIndex: 2 }}>
+              <YouTubeIcon
+                sx={{ fontSize: "50px", color: red[500], zIndex: 1 }}
+              />
+            </Link>
+            <div
+              style={{
+                width: "20px",
+                height: "20px",
+                background: "#ffff",
+                position: "absolute",
+                // zIndex: 1,
+                // top: 25,
+                // left: 28,
+              }}
+            ></div>
           </IconButton>
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+            sx={{ display: { xs: "none", sm: "block" } }}
           >
             YouTube
-          </Typography>            
-              <Search>
-                <SearchIconWrapper>
-                <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  fullWidth
-                  placeholder="Search…"
-                  inputProps={{ 'aria-label': 'search' }}
-                  />
-            </Search>
-          <MicOffIcon sx={{ borderRadius: "50%", cursor: "pointer", p: 1, fontSize: "37px", "&:hover": {background: "grey"} }} />
+          </Typography>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              fullWidth
+              placeholder="Search…"
+              inputProps={{ "aria-label": "search" }}
+            />
+          </Search>
+          <MicOffIcon
+            sx={{
+              borderRadius: "50%",
+              cursor: "pointer",
+              p: 1,
+              fontSize: "37px",
+              "&:hover": { background: "grey" },
+            }}
+          />
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"
               edge="end"
@@ -183,7 +209,7 @@ function Navbar() {
               <AccountCircle />
             </IconButton>
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="show more"
@@ -199,8 +225,9 @@ function Navbar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      {/* <Outlet /> */}
     </Stack>
   );
 }
 
-export default Navbar
+export default Navbar;

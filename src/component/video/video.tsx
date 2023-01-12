@@ -6,16 +6,18 @@ import Typography from "@mui/material/Typography";
 import { Stack } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { VideoPropType } from "../../utils/types";
+import { Link } from "react-router-dom";
 
 export default function Video({
   id,
   channel,
+  cahnnelId,
   publishTime,
   imageUrl,
   title,
 }: VideoPropType) {
   return (
-    <div className="grid-layout" id={id}>
+    <div className="grid-layout">
       <Card
         sx={{
           maxWidth: 290,
@@ -23,15 +25,19 @@ export default function Video({
           backgroundColor: "inherit",
         }}
       >
-        <CardMedia
-          component="img"
-          height="155"
-          image={imageUrl}
-          alt="video alt"
-          sx={{ borderRadius: "1rem" }}
-        />
+        <Link to={`video/${id}`}>
+          <CardMedia
+            component="img"
+            height="155"
+            image={imageUrl}
+            alt="video alt"
+            sx={{ borderRadius: "1rem" }}
+          />
+        </Link>
         <CardActions disableSpacing sx={{ padding: 0 }}>
-          <Avatar sx={{ ml: "5px", marginRight: "8px" }} />
+          <Link to={`/channel/${cahnnelId}`}>
+            <Avatar sx={{ ml: "5px", marginRight: "8px" }} />
+          </Link>
           <Stack sx={{ marginTop: "5px" }}>
             <Typography
               variant="body2"
@@ -39,12 +45,14 @@ export default function Video({
             >
               {title.substring(0, 10)}
             </Typography>
-            <Typography
-              variant="body2"
-              sx={{ color: "grey", fontSize: "12px", py: 1 }}
-            >
-              {channel} <CheckCircleIcon sx={{ fontSize: 10 }} />
-            </Typography>
+            <Link to={`/channel/${cahnnelId}`}>
+              <Typography
+                variant="body2"
+                sx={{ color: "grey", fontSize: "12px", py: 1 }}
+              >
+                {channel} <CheckCircleIcon sx={{ fontSize: 10 }} />
+              </Typography>
+            </Link>
             <Typography
               variant="body2"
               sx={{ color: "grey", fontSize: "12px" }}

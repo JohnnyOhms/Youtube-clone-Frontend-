@@ -1,15 +1,17 @@
-import React from "react";
-import Navbar from "./component/Navbar/Navbar";
-import SideBar from "./component/sideBar/SideBar";
+import React, { lazy, Suspense } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Category from "./component/categories/category";
-import VideoSection from "./component/video section/VideoSection";
-import PlayVideo from "./component/play Video/PlayVideo";
-import VideoChannel from "./component/Video channel/VideoChannel";
 import SearchFeed from "./component/searchfeed/SearchFeed";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
+import Main from "./component/main/main";
+import NotFoundPage from "./component/notFoundPage/NotFoundPage";
+import Loader from "./component/loader/Loader";
+import LazyLoad from "./component/loader/LazyLoad";
+const PlayVideo = lazy(() => import("./component/play Video/PlayVideo"));
+const VideoChannel = lazy(
+  () => import("./component/Video channel/VideoChannel")
+);
 
 function App() {
   const theme = createTheme({
@@ -27,14 +29,26 @@ function App() {
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Navbar />
-          <SideBar />
-          <Category />
           <Routes>
-            <Route path="/" element={<VideoSection />} />
-            <Route path="/video/:videoId" element={<PlayVideo />} />
-            <Route path="channel/:channelId" element={<VideoChannel />} />
-            <Route path="search/" element={<SearchFeed />} />
+            <Route path="/" element={<Main />} />
+            <Route
+              path="/video/:videoId"
+              element={
+                <Suspense fallback={<LazyLoad />}>
+                  <PlayVideo />
+                </Suspense>
+              }
+            />
+            <Route
+              path="channel/:channelId"
+              element={
+                <Suspense fallback={<LazyLoad />}>
+                  <VideoChannel />
+                </Suspense>
+              }
+            />
+            <Route path="search/:searchId" element={<SearchFeed />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

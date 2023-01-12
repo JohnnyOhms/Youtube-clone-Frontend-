@@ -3,7 +3,7 @@ import { CategoryItem } from "../../utils/data";
 import { useSearchParams } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/hooks";
 import { videoAPI } from "../../slice/getAPIslice";
-import { requestType } from "../../slice/getAPIslice";
+import { requestType } from "../../utils/types";
 
 const Category = () => {
   const [categoryName, setCategoryName] = useState<requestType<string>>("All");
