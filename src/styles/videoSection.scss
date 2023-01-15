@@ -15,5 +15,33 @@
     background-color: inherit;
     height: 230px;
     width: 290px;
-    max-width: 290px;
+    max-width: 400px;
+}
+
+
+@media screen and (max-width: 1000px) {
+    .video-section {
+        margin-left:auto ;
+        margin-right: auto;
+    }
+
+    .grid-layout {
+        width: 100%;
+        margin: 0 auto;
+
+    }
+}
+
+@media screen and (max-width:600px) {
+    .video-section {
+        margin: 0 ;
+        padding: 0;
+        width: 100vw;
+    
+    }
+    .grid-layout {
+        width: 100%;
+        margin: 0 auto;
+       
+    }
 }

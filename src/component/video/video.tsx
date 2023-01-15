@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import { Stack } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { VideoPropType } from "../../utils/types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Video({
   id,
@@ -16,27 +16,28 @@ export default function Video({
   imageUrl,
   title,
 }: VideoPropType) {
+  const navigate = useNavigate();
   return (
     <div className="grid-layout">
       <Card
         sx={{
-          maxWidth: 290,
+          maxWidth: 400,
           maxHeight: 280,
           backgroundColor: "inherit",
         }}
       >
-        <Link to={`video/${id}`}>
-          <CardMedia
-            component="img"
-            height="155"
-            image={imageUrl}
-            alt="video alt"
-            sx={{ borderRadius: "1rem" }}
-          />
-        </Link>
+        <CardMedia
+          component="img"
+          height="155"
+          image={imageUrl}
+          alt="video alt"
+          sx={{ borderRadius: "1rem", cursor: "pointer", background: imageUrl }}
+          onClick={() => navigate(`/video/${id}`)}
+        />
+
         <CardActions disableSpacing sx={{ padding: 0 }}>
           <Link to={`/channel/${cahnnelId}`}>
-            <Avatar sx={{ ml: "5px", marginRight: "8px" }} />
+            <Avatar sx={{ ml: "5px", marginRight: "8px" }} src={imageUrl} />
           </Link>
           <Stack sx={{ marginTop: "5px" }}>
             <Typography

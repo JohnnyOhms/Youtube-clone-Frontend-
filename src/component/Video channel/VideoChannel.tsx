@@ -1,57 +1,150 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import Navbar from "../Navbar/Navbar";
 import SideBar from "../sideBar/SideBar";
 import { Avatar, Stack, Typography } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import VideoSection from "../video section/VideoSection";
+import { useParams } from "react-router";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { videoAPI } from "../../slice/getAPIslice";
+import { RelatedVideoAPI } from "../../slice/getRelatedVideo";
+import { videoResult } from "../../utils/types";
+import Loader from "../loader/Loader";
+import ErrorMssg from "../error/errorMssg";
 
 const VideoChannel = () => {
+  const { channelId } = useParams();
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(videoAPI(`channels?part=snippet&id=${channelId}`));
+    // channel videos
+    dispatch(
+      RelatedVideoAPI(
+        `search?part=snippet,id&channelId=${channelId}&order=date`
+      )
+    );
+  }, [dispatch]);
+
+  const channelDetails: videoResult<null> = useAppSelector(
+    (state) => state.video.videoResult
+  );
+  const loading = useAppSelector((state) => state.video.loading);
+  const error = useAppSelector((state) => state.video.erroMssg);
+
+  const channelVideo: videoResult<null> | undefined = useAppSelector(
+    (state) => state.relatedVideo.videoResult
+  );
+  const loadingRelated: Boolean | undefined = useAppSelector(
+    (state) => state.relatedVideo.loading
+  );
+  const errorRelated: Boolean | undefined = useAppSelector(
+    (state) => state.relatedVideo.erroMssg
+  );
+
+  let channel_Video: videoResult<null> | undefined;
+  let error_Related: Boolean | undefined;
+  let loading_Related: Boolean | undefined;
+
+  type details = string | undefined;
+
+  let title: details,
+    customUrl: details,
+    banner: details,
+    imgUrl: details,
+    viewCount: details,
+    subscribers: details;
+
+  let displayChannel: JSX.Element;
+
+  if (channelDetails && channelDetails.length === 1) {
+    title = channelDetails[0].snippet.localized?.title;
+    customUrl = channelDetails[0].snippet.customUrl;
+    viewCount = channelDetails[0].statistics.viewCount;
+    subscribers = channelDetails[0].statistics.subscriberCount;
+    banner = channelDetails[0].brandingSettings.image.bannerExternalUrl;
+    imgUrl = channelDetails[0].snippet.thumbnails.high.url;
+    console.log(banner);
+  }
+
+  const ShowChannelDetails: JSX.Element = (
+    <Box
+      // minHeight="95vh"
+      sx={{
+        marginTop: "10vh",
+        marginLeft: { sm: "100vw", md: "35vh", lg: "30vh" },
+      }}
+    >
+      <Box>
+        <div
+          style={{
+            height: "200px",
+            background:
+              // ? `url(${banner})`
+              " linear-gradient(to right top, #052737, #0e4961, #146f8e, #1697bc, #12c2eb)",
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+          }}
+        ></div>
+      </Box>
+      <Stack direction="row" sx={{ justifyContent: "space-between" }}>
+        <Stack direction="row" spacing={2} margin="20px">
+          <Avatar src={imgUrl} />
+          <Stack sx={{ marginTop: "5px" }}>
+            <Typography variant="h6" sx={{ color: "white" }}>
+              {title} <CheckCircleIcon sx={{ fontSize: 10 }} />
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{ color: "grey", fontSize: "13px", cursor: "pointer" }}
+            >
+              {customUrl}
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{ color: "grey", fontSize: "13px", cursor: "pointer" }}
+            >
+              {/* {parseInt(viewCount).toLocaleString("e-US") } */}
+              {viewCount} views
+            </Typography>
+          </Stack>
+        </Stack>
+        <Typography
+          variant="body2"
+          sx={{ color: "grey", fontSize: "15px", margin: "1.5rem" }}
+        >
+          {/* {parseInt(subscribers).toLocaleString("e-US")} */}
+          {subscribers} subscribers
+        </Typography>
+      </Stack>
+    </Box>
+  );
+
+  if (loading) {
+    displayChannel = <Loader />;
+  } else {
+    if (error) {
+      displayChannel = <ErrorMssg />;
+    } else {
+      displayChannel = ShowChannelDetails;
+
+      channel_Video = channelVideo;
+      error_Related = errorRelated;
+      loading_Related = loadingRelated;
+    }
+  }
+
   return (
     <React.Fragment>
       <Navbar />
       <SideBar />
-      <Box
-        // minHeight="95vh"
-        sx={{
-          marginTop: "10vh",
-          marginLeft: { sm: "100vw", md: "35vh", lg: "30vh" },
-        }}
-      >
-        <Box>
-          <div
-            style={{
-              height: "180px",
-              background:
-                "linear-gradient(90deg, rgba(0,238,247,1) 0%, rgba(206,3,184,1) 100%, rgba(0,212,255,1) 100%)",
-              zIndex: 10,
-            }}
-          />
-        </Box>
-        <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-          <Stack direction="row" spacing={2} margin="20px">
-            <Avatar />
-            <Stack sx={{ marginTop: "5px" }}>
-              <Typography variant="h6" sx={{ color: "white" }}>
-                title
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "grey", fontSize: "18px", cursor: "pointer" }}
-              >
-                channel <CheckCircleIcon sx={{ fontSize: 10 }} />
-              </Typography>
-            </Stack>
-          </Stack>
-          <Typography
-            variant="body2"
-            sx={{ color: "grey", fontSize: "15px", margin: "1.5rem" }}
-          >
-            subscribers
-          </Typography>
-        </Stack>
-      </Box>
-      <VideoSection />
+      {displayChannel}
+      <VideoSection
+        videos={channel_Video}
+        error={error_Related}
+        loading={loading_Related}
+      />
     </React.Fragment>
   );
 };

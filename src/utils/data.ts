@@ -1,4 +1,3 @@
-import HomeIcon from "@mui/icons-material/Home";
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
@@ -13,10 +12,6 @@ type sideBarItemDetails = {
 };
 
 export const sideBarItem: sideBarItemDetails[] = [
-  {
-    name: "Home",
-    icon: HomeIcon,
-  },
   {
     name: "Short",
     icon: LocalFloristIcon,

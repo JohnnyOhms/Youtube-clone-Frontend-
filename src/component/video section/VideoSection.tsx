@@ -1,15 +1,10 @@
 import React from "react";
-import { useAppSelector } from "../../hooks/hooks";
 import Video from "../video/video";
-import { DisplayVideoType } from "../../utils/types";
+import { videoSection } from "../../utils/types";
 import ErrorMssg from "../error/errorMssg";
 import Loader from "../loader/Loader";
 
-const VideoSection = () => {
-  const videos = useAppSelector((state) => state.video.videoResult);
-  const error = useAppSelector((state) => state.video.erroMssg);
-  const loading = useAppSelector((state) => state.video.loading);
-
+const VideoSection = ({ videos, error, loading }: videoSection) => {
   return (
     <div className="video-section">
       {error && <ErrorMssg />}
@@ -27,7 +22,8 @@ const VideoSection = () => {
               publishTime={item.snippet.publishTime}
             />
           );
-        })}
+        } )}
+      
     </div>
   );
 };

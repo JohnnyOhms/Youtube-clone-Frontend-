@@ -1,6 +1,7 @@
 .wrapper .sidebar {
     background: inherit;
     position: fixed;
+    // border-right: 2px solid grey;
     top: 4rem;
     left: 0;
     width: 225px;
@@ -45,4 +46,36 @@
 .wrapper .sidebar ul li a:hover:before,
 .wrapper .sidebar ul li a.active:before {
     display: block;
+}
+
+@media screen and (max-width:1000px) {
+    .wrapper {
+        background-color: grey;
+        height: 100vh;
+        position: fixed;
+        display: none;
+    }
+
+    .wrapper .sidebar {
+        background: inherit;
+        position: absolute;
+        // border-right: 2px solid grey;
+        // top: 0px;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 225px;
+        // padding: 20px 0;
+        // transition: all 0.5s ease;
+    }
+}
+
+@media screen and (max-width:600px) {
+    .wrapper {
+
+        display: none;
+    }
+    .wrapper .sidebar {
+    
+    }
 }

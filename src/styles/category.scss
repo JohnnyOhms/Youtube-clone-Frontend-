@@ -44,3 +44,17 @@
         }
     }
 }
+
+@media screen and (max-width:1200px) {
+    .Category {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media screen and (max-width:600px) {
+    .Category {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

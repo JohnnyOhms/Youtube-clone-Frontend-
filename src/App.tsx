@@ -6,9 +6,8 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import Main from "./component/main/main";
 import NotFoundPage from "./component/notFoundPage/NotFoundPage";
-import Loader from "./component/loader/Loader";
 import LazyLoad from "./component/loader/LazyLoad";
-const PlayVideo = lazy(() => import("./component/play Video/PlayVideo"));
+const PlayVideo = React.lazy(() => import("./component/playVideo/PlayVideo"));
 const VideoChannel = lazy(
   () => import("./component/Video channel/VideoChannel")
 );

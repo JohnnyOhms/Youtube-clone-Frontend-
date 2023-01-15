@@ -15,7 +15,12 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import { red } from "@mui/material/colors";
 import { Stack } from "@mui/material";
 import MicOffIcon from "@mui/icons-material/MicOff";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { videoAPI } from "../../slice/getAPIslice";
+import { useAppDispatch } from "../../hooks/hooks";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -49,22 +54,25 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    paddingLeft: `calc(1em + ${theme.spacing(2)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("md")]: {
       width: "20ch",
     },
   },
+  paddingRight: "30px",
 }));
 
 function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
-
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const [inputValue, setInputValue] = React.useState<string>("");
+
+  const { transcript, resetTranscript, listening } = useSpeechRecognition();
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -81,6 +89,35 @@ function Navbar() {
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const dispatch = useAppDispatch();
+
+  const handleSubmit = (
+    event:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+    if (!inputValue) return;
+    dispatch(videoAPI(`search?part=snippet,id&q=${inputValue}`));
+  };
+
+  const listenContinuously = () => {
+    SpeechRecognition.startListening({
+      continuous: true,
+      language: "en-GB",
+    });
+  };
+
+  const voiceSearch = () => {
+    if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
+      console.log(
+        "Your browser does not support speech recognition software! Try Chrome desktop, maybe?"
+      );
+      return;
+    }
+    console.log("ok");
   };
 
   const menuId = "primary-search-account-menu";
@@ -162,9 +199,6 @@ function Navbar() {
                 height: "20px",
                 background: "#ffff",
                 position: "absolute",
-                // zIndex: 1,
-                // top: 25,
-                // left: 28,
               }}
             ></div>
           </IconButton>
@@ -176,24 +210,33 @@ function Navbar() {
           >
             YouTube
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              fullWidth
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+          <form onSubmit={(e) => handleSubmit(e)}>
+            <Search>
+              <SearchIconWrapper
+                onClick={(e) => handleSubmit}
+                sx={{ cursor: "pointer" }}
+              >
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                onChange={(e) => setInputValue(e.target.value)}
+                value={inputValue}
+                fullWidth
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+          </form>
           <MicOffIcon
             sx={{
               borderRadius: "50%",
               cursor: "pointer",
               p: 1,
+              marginRight: "20px",
               fontSize: "37px",
               "&:hover": { background: "grey" },
             }}
+            onClick={voiceSearch}
           />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
