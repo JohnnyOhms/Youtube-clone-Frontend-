@@ -15,7 +15,8 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import { red } from "@mui/material/colors";
 import { Stack } from "@mui/material";
 import MicOffIcon from "@mui/icons-material/MicOff";
-import { Link } from "react-router-dom";
+import MicIcon from "@mui/icons-material/Mic";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { videoAPI } from "../../slice/getAPIslice";
 import { useAppDispatch } from "../../hooks/hooks";
 import SpeechRecognition, {
@@ -71,8 +72,9 @@ function Navbar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const [inputValue, setInputValue] = React.useState<string>("");
-
   const { transcript, resetTranscript, listening } = useSpeechRecognition();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -100,7 +102,11 @@ function Navbar() {
   ) => {
     event.preventDefault();
     if (!inputValue) return;
+    navigate("/");
+    setSearchParams({ search_query: inputValue });
     dispatch(videoAPI(`search?part=snippet,id&q=${inputValue}`));
+    resetTranscript();
+    setInputValue("");
   };
 
   const listenContinuously = () => {
@@ -117,7 +123,13 @@ function Navbar() {
       );
       return;
     }
-    console.log("ok");
+    if (listening) {
+      SpeechRecognition.stopListening();
+    } else {
+      listenContinuously();
+      // transValue += transcript;
+      // setInputValue(transcript);
+    }
   };
 
   const menuId = "primary-search-account-menu";
@@ -210,7 +222,10 @@ function Navbar() {
           >
             YouTube
           </Typography>
-          <form onSubmit={(e) => handleSubmit(e)}>
+          <form
+            onSubmit={(e) => handleSubmit(e)}
+            style={{ marginRight: "15px" }}
+          >
             <Search>
               <SearchIconWrapper
                 onClick={(e) => handleSubmit}
@@ -220,24 +235,39 @@ function Navbar() {
               </SearchIconWrapper>
               <StyledInputBase
                 onChange={(e) => setInputValue(e.target.value)}
-                value={inputValue}
+                value={inputValue || transcript}
                 fullWidth
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
               />
             </Search>
           </form>
-          <MicOffIcon
-            sx={{
-              borderRadius: "50%",
-              cursor: "pointer",
-              p: 1,
-              marginRight: "20px",
-              fontSize: "37px",
-              "&:hover": { background: "grey" },
-            }}
-            onClick={voiceSearch}
-          />
+          {listening ? (
+            <MicOffIcon
+              sx={{
+                borderRadius: "50%",
+                cursor: "pointer",
+                p: 1,
+                marginRight: "20px",
+                fontSize: "37px",
+                "&:hover": { background: "grey" },
+              }}
+              onClick={voiceSearch}
+            />
+          ) : (
+            <MicIcon
+              sx={{
+                borderRadius: "50%",
+                cursor: "pointer",
+                p: 1,
+                marginRight: "20px",
+                fontSize: "37px",
+                "&:hover": { background: "grey" },
+              }}
+              onClick={voiceSearch}
+            />
+          )}
+
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
