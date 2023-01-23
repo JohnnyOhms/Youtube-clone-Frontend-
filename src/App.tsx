@@ -8,6 +8,7 @@ import Main from "./component/main/main";
 import NotFoundPage from "./component/notFoundPage/NotFoundPage";
 import LazyLoad from "./component/loader/LazyLoad";
 import Dictaphone1 from "./test";
+import Context from "./context/context";
 const PlayVideo = React.lazy(() => import("./component/playVideo/PlayVideo"));
 const VideoChannel = lazy(
   () => import("./component/Video channel/VideoChannel")
@@ -27,32 +28,34 @@ function App() {
 
   return (
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route
-              path="/video/:videoId"
-              element={
-                <Suspense fallback={<LazyLoad />}>
-                  <PlayVideo />
-                </Suspense>
-              }
-            />
-            <Route
-              path="channel/:channelId"
-              element={
-                <Suspense fallback={<LazyLoad />}>
-                  <VideoChannel />
-                </Suspense>
-              }
-            />
-            <Route path="search/:searchId" element={<SearchFeed />} />
-            <Route path="*" element={<NotFoundPage />} />
-            <Route path="test" element={<Dictaphone1 />} />
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
+      <Context>
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Main />} />
+              <Route
+                path="/video/:videoId"
+                element={
+                  <Suspense fallback={<LazyLoad />}>
+                    <PlayVideo />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/channel/:channelId"
+                element={
+                  <Suspense fallback={<LazyLoad />}>
+                    <VideoChannel />
+                  </Suspense>
+                }
+              />
+              <Route path="/search" element={<SearchFeed />} />
+              <Route path="*" element={<NotFoundPage />} />
+              <Route path="test" element={<Dictaphone1 />} />
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </Context>
     </Provider>
   );
 }

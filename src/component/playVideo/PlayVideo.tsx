@@ -4,7 +4,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ReactPlayer from "react-player";
 import Video from "../video/video";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { videoAPI } from "../../slice/getAPIslice";
 import { videoResult } from "../../utils/types";
@@ -66,12 +66,14 @@ const PlayVideo = (): JSX.Element => {
       />
       <Stack direction="row" sx={{ justifyContent: "space-between" }}>
         <Stack direction="row" spacing={2} margin="20px">
-          <Avatar
-            sx={{
-              ml: { sm: 0, md: "5px", lg: "5px" },
-              marginRight: { sm: 0, md: "8px", lg: "8px" },
-            }}
-          />
+          <Link to={`channel/${``}`}>
+            <Avatar
+              sx={{
+                ml: { sm: 0, md: "5px", lg: "5px" },
+                marginRight: { sm: 0, md: "8px", lg: "8px" },
+              }}
+            />
+          </Link>
           <Stack sx={{ marginTop: { sm: "1px", md: "5px", lg: "5px" } }}>
             <Typography variant="h6" sx={{ color: "white" }}>
               {title?.substring(0, 40)}
@@ -167,8 +169,6 @@ const PlayVideo = (): JSX.Element => {
           spacing={2}
         >
           {play}
-
-          {/* <div className="related-videos"> */}
           <Stack
             sx={{
               width: { sm: "100%", md: "100px", lg: "20vw" },
@@ -177,7 +177,6 @@ const PlayVideo = (): JSX.Element => {
           >
             {relatedSection}
           </Stack>
-          {/* </div> */}
         </Stack>
       </div>
     </React.Fragment>

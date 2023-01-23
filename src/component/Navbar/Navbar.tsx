@@ -22,6 +22,8 @@ import { useAppDispatch } from "../../hooks/hooks";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import { contextType } from "../../utils/types";
+import { ContextAPI } from "../../context/context";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -75,6 +77,7 @@ function Navbar() {
   const { transcript, resetTranscript, listening } = useSpeechRecognition();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const dataContext = React.useContext<contextType>(ContextAPI);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -102,11 +105,10 @@ function Navbar() {
   ) => {
     event.preventDefault();
     if (!inputValue) return;
-    navigate("/");
-    setSearchParams({ search_query: inputValue });
-    dispatch(videoAPI(`search?part=snippet,id&q=${inputValue}`));
     resetTranscript();
     setInputValue("");
+    dataContext.inputValue = inputValue;
+    navigate("/search");
   };
 
   const listenContinuously = () => {

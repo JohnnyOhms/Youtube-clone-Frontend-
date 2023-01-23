@@ -51,3 +51,7 @@ export type videoSection = {
   error?: Boolean | undefined;
   loading?: Boolean | undefined;
 };
+
+export interface contextType {
+  inputValue: string;
+}
