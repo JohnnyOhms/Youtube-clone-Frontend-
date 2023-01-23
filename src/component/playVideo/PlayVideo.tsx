@@ -49,7 +49,15 @@ const PlayVideo = (): JSX.Element => {
     date = video[0].snippet.publishTime;
   }
   const videoPlayer: JSX.Element = (
-    <div className="youtube-play">
+    <Stack
+      sx={{
+        width: { sm: "100%", md: "100%", lg: "60rem" },
+        height: "34rem",
+        // height: { sm: "", md: "30rem", lg: "35rem" },
+        margin: { sm: 0, md: "20px", lg: "30px" },
+        maxWidth: "60rem",
+      }}
+    >
       <ReactPlayer
         url={`https://www.youtube.com/watch?v=${videoId}`}
         controls
@@ -58,14 +66,23 @@ const PlayVideo = (): JSX.Element => {
       />
       <Stack direction="row" sx={{ justifyContent: "space-between" }}>
         <Stack direction="row" spacing={2} margin="20px">
-          <Avatar sx={{ ml: "5px", marginRight: "8px" }} />
-          <Stack sx={{ marginTop: "5px" }}>
+          <Avatar
+            sx={{
+              ml: { sm: 0, md: "5px", lg: "5px" },
+              marginRight: { sm: 0, md: "8px", lg: "8px" },
+            }}
+          />
+          <Stack sx={{ marginTop: { sm: "1px", md: "5px", lg: "5px" } }}>
             <Typography variant="h6" sx={{ color: "white" }}>
               {title?.substring(0, 40)}
             </Typography>
             <Typography
               variant="body2"
-              sx={{ color: "grey", fontSize: "18px", cursor: "pointer" }}
+              sx={{
+                color: "grey",
+                fontSize: { sm: "13px", md: "18px", lg: "18px" },
+                cursor: "pointer",
+              }}
             >
               {channel} <CheckCircleIcon sx={{ fontSize: 10 }} />
             </Typography>
@@ -94,10 +111,10 @@ const PlayVideo = (): JSX.Element => {
             },
           }}
         >
-          Save to Favourite
+          Save
         </Button>
       </Stack>
-    </div>
+    </Stack>
   );
 
   let showRelatedVideo: videoResult<null> = null;
@@ -140,15 +157,27 @@ const PlayVideo = (): JSX.Element => {
       <Navbar />
       <div className="playVideo">
         <Stack
-          sx={{ height: "100%", background: "inherit" }}
-          direction="row"
+          sx={{
+            height: "100%",
+            width: "100%",
+            background: "inherit",
+            display: "flex",
+            flexDirection: { sm: "column", md: "column", lg: "row" },
+          }}
           spacing={2}
         >
           {play}
 
-          <div className="related-videos">
-            <Stack spacing={2}>{relatedSection}</Stack>
-          </div>
+          {/* <div className="related-videos"> */}
+          <Stack
+            sx={{
+              width: { sm: "100%", md: "100px", lg: "20vw" },
+            }}
+            className="related-videos"
+          >
+            {relatedSection}
+          </Stack>
+          {/* </div> */}
         </Stack>
       </div>
     </React.Fragment>

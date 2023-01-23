@@ -64,7 +64,6 @@ const VideoChannel = () => {
     subscribers = channelDetails[0].statistics.subscriberCount;
     banner = channelDetails[0].brandingSettings.image.bannerExternalUrl;
     imgUrl = channelDetails[0].snippet.thumbnails.high.url;
-    console.log(banner);
   }
 
   const ShowChannelDetails: JSX.Element = (
@@ -72,7 +71,7 @@ const VideoChannel = () => {
       // minHeight="95vh"
       sx={{
         marginTop: "10vh",
-        marginLeft: { sm: "100vw", md: "35vh", lg: "30vh" },
+        marginLeft: { sm: 0, md: 0, lg: "30vh" },
       }}
     >
       <Box>
@@ -80,7 +79,7 @@ const VideoChannel = () => {
           style={{
             height: "200px",
             background:
-              // ? `url(${banner})`
+              `url(${banner})` ||
               " linear-gradient(to right top, #052737, #0e4961, #146f8e, #1697bc, #12c2eb)",
             backgroundPosition: "center",
             backgroundSize: "cover",
@@ -89,7 +88,13 @@ const VideoChannel = () => {
         ></div>
       </Box>
       <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-        <Stack direction="row" spacing={2} margin="20px">
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{
+            margin: { sm: "10px", lg: "20px" },
+          }}
+        >
           <Avatar src={imgUrl} />
           <Stack sx={{ marginTop: "5px" }}>
             <Typography variant="h6" sx={{ color: "white" }}>
@@ -112,7 +117,11 @@ const VideoChannel = () => {
         </Stack>
         <Typography
           variant="body2"
-          sx={{ color: "grey", fontSize: "15px", margin: "1.5rem" }}
+          sx={{
+            color: "grey",
+            fontSize: "15px",
+            margin: { sm: "10px", lg: "1.5rem" },
+          }}
         >
           {/* {parseInt(subscribers).toLocaleString("e-US")} */}
           {subscribers} subscribers

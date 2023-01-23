@@ -7,6 +7,7 @@ import { store } from "./store/store";
 import Main from "./component/main/main";
 import NotFoundPage from "./component/notFoundPage/NotFoundPage";
 import LazyLoad from "./component/loader/LazyLoad";
+import Dictaphone1 from "./test";
 const PlayVideo = React.lazy(() => import("./component/playVideo/PlayVideo"));
 const VideoChannel = lazy(
   () => import("./component/Video channel/VideoChannel")
@@ -48,6 +49,7 @@ function App() {
             />
             <Route path="search/:searchId" element={<SearchFeed />} />
             <Route path="*" element={<NotFoundPage />} />
+            <Route path="test" element={<Dictaphone1 />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
