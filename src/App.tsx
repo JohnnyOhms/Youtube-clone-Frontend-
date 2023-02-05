@@ -2,13 +2,13 @@ import React, { lazy, Suspense } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SearchFeed from "./component/searchfeed/SearchFeed";
-import { Provider } from "react-redux";
-import { store } from "./store/store";
 import Main from "./component/main/main";
 import NotFoundPage from "./component/notFoundPage/NotFoundPage";
 import LazyLoad from "./component/loader/LazyLoad";
-import Dictaphone1 from "./test";
 import Context from "./context/context";
+import AlertBar from "./component/alertBar/alertBar";
+import { useAppSelector } from "./hooks/hooks";
+import Saved from "./component/saved/Saved";
 const PlayVideo = React.lazy(() => import("./component/playVideo/PlayVideo"));
 const VideoChannel = lazy(
   () => import("./component/Video channel/VideoChannel")
@@ -26,8 +26,11 @@ function App() {
     },
   });
 
+  const notify = useAppSelector((state) => state.notification.open);
+
   return (
-    <Provider store={store}>
+    <>
+      {notify && <AlertBar />}
       <Context>
         <ThemeProvider theme={theme}>
           <BrowserRouter>
@@ -49,14 +52,14 @@ function App() {
                   </Suspense>
                 }
               />
+              <Route path="/saved_videos" element={<Saved />} />
               <Route path="/search" element={<SearchFeed />} />
               <Route path="*" element={<NotFoundPage />} />
-              <Route path="test" element={<Dictaphone1 />} />
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
       </Context>
-    </Provider>
+    </>
   );
 }
 

@@ -57,12 +57,12 @@ const VideoChannel = () => {
 
   let displayChannel: JSX.Element;
 
-  if (channelDetails && channelDetails.length === 1) {
+  if (channelDetails && channelDetails.length >= 1) {
     title = channelDetails[0].snippet.localized?.title;
     customUrl = channelDetails[0].snippet.customUrl;
     viewCount = channelDetails[0].statistics.viewCount;
     subscribers = channelDetails[0].statistics.subscriberCount;
-    banner = channelDetails[0].brandingSettings.image.bannerExternalUrl;
+    // banner = channelDetails[0].brandingSettings.image.bannerExternalUrl;
     imgUrl = channelDetails[0].snippet.thumbnails.high.url;
   }
 
@@ -79,7 +79,7 @@ const VideoChannel = () => {
           style={{
             height: "200px",
             background:
-              `url(${banner})` ||
+              // `url(${banner})` ||
               " linear-gradient(to right top, #052737, #0e4961, #146f8e, #1697bc, #12c2eb)",
             backgroundPosition: "center",
             backgroundSize: "cover",

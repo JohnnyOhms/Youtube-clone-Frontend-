@@ -5,8 +5,11 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { Stack } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { VideoPropType } from "../../utils/types";
+import { VideoPropType, contextType } from "../../utils/types";
 import { Link, useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../hooks/hooks";
+import { useContext } from "react";
+import { ContextAPI } from "../../context/context";
 
 export default function Video({
   id,
@@ -17,6 +20,19 @@ export default function Video({
   title,
 }: VideoPropType) {
   const navigate = useNavigate();
+  const videos = useAppSelector((state) => state.video.videoResult);
+  const dataContext = useContext<contextType>(ContextAPI);
+
+  const handleClick = () => {
+    const singleVideo = videos?.find((item) => item.id.videoId === id);
+    if (singleVideo) {
+      dataContext.avatarImg = singleVideo.snippet.thumbnails.high.url;
+      dataContext.channelId = singleVideo.snippet.channelId;
+    }
+
+    return navigate(`/video/${id}`);
+  };
+
   return (
     <div className="grid-layout">
       <Card
@@ -32,7 +48,7 @@ export default function Video({
           image={imageUrl}
           alt="video alt"
           sx={{ borderRadius: "1rem", cursor: "pointer", background: imageUrl }}
-          onClick={() => navigate(`/video/${id}`)}
+          onClick={handleClick}
         />
 
         <CardActions disableSpacing sx={{ padding: 0 }}>

@@ -1,6 +1,7 @@
 export type requestType<T> = T | null;
 export type responseType = DisplayVideoType[];
 export type videoResult<T> = T | responseType;
+export type notificationType<T> = T | { message: string; open: boolean };
 
 export interface DisplayVideoType extends channelDetails {
   id: { videoId: string };
@@ -54,4 +55,6 @@ export type videoSection = {
 
 export interface contextType {
   inputValue: string;
+  avatarImg: string;
+  channelId: string;
 }

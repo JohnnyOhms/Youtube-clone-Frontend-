@@ -1,11 +1,17 @@
 import { createContext } from "react";
 import { contextType } from "../utils/types";
+import { useAppSelector } from "../hooks/hooks";
 
-export const ContextAPI = createContext<contextType>({ inputValue: "" });
+const contextData = {
+  inputValue: "",
+  avatarImg: "",
+  channelId: "",
+};
+
+export const ContextAPI = createContext<contextType>(contextData);
 const Context = ({ children }: any) => {
-  const contextData = {
-    inputValue: "",
-  };
+  const notify = useAppSelector((state) => state.notification.open);
+  console.log(notify);
   return (
     <ContextAPI.Provider value={contextData}>{children}</ContextAPI.Provider>
   );

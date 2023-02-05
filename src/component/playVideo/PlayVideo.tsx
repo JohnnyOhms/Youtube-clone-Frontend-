@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import { Avatar, Button, Stack, Typography } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ReactPlayer from "react-player";
 import Video from "../video/video";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { videoAPI } from "../../slice/getAPIslice";
-import { videoResult } from "../../utils/types";
+import { contextType, videoResult } from "../../utils/types";
 import Loader from "../loader/Loader";
 import ErrorMssg from "../error/errorMssg";
 import Navbar from "../Navbar/Navbar";
 import { RelatedVideoAPI } from "../../slice/getRelatedVideo";
+import { ContextAPI } from "../../context/context";
 
 const PlayVideo = (): JSX.Element => {
   const { videoId } = useParams();
   const dispatch = useAppDispatch();
+  const dataContext = useContext<contextType>(ContextAPI);
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(videoAPI(`videos?part=snippet,statistics&id=${videoId}`));
     // related videos
@@ -48,6 +51,12 @@ const PlayVideo = (): JSX.Element => {
     channel = video[0].snippet.channelTitle;
     date = video[0].snippet.publishTime;
   }
+
+  const handleClick = () => {
+    navigate(`/channel/${dataContext.channelId}`);
+    console.log("ok");
+  };
+
   const videoPlayer: JSX.Element = (
     <Stack
       sx={{
@@ -65,19 +74,26 @@ const PlayVideo = (): JSX.Element => {
         width="100%"
       />
       <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-        <Stack direction="row" spacing={2} margin="20px">
-          <Link to={`channel/${``}`}>
-            <Avatar
-              sx={{
-                ml: { sm: 0, md: "5px", lg: "5px" },
-                marginRight: { sm: 0, md: "8px", lg: "8px" },
-              }}
-            />
-          </Link>
+        <Stack
+          direction="row"
+          spacing={2}
+          margin="20px"
+          sx={{ cursor: "pointer" }}
+          onClick={handleClick}
+        >
+          <Avatar
+            sx={{
+              ml: { sm: 0, md: "5px", lg: "5px" },
+              marginRight: { sm: 0, md: "8px", lg: "8px" },
+            }}
+            src={dataContext.avatarImg}
+          />
+
           <Stack sx={{ marginTop: { sm: "1px", md: "5px", lg: "5px" } }}>
             <Typography variant="h6" sx={{ color: "white" }}>
               {title?.substring(0, 40)}
             </Typography>
+
             <Typography
               variant="body2"
               sx={{
@@ -88,6 +104,7 @@ const PlayVideo = (): JSX.Element => {
             >
               {channel} <CheckCircleIcon sx={{ fontSize: 10 }} />
             </Typography>
+
             <Typography
               variant="body2"
               sx={{ color: "grey", fontSize: "15px" }}
@@ -171,7 +188,7 @@ const PlayVideo = (): JSX.Element => {
           {play}
           <Stack
             sx={{
-              width: { sm: "100%", md: "100px", lg: "20vw" },
+              width: { sm: "100%", md: "100px", lg: "25vw" },
             }}
             className="related-videos"
           >

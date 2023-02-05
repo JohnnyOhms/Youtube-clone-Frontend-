@@ -17,13 +17,13 @@ import { Stack } from "@mui/material";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import MicIcon from "@mui/icons-material/Mic";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { videoAPI } from "../../slice/getAPIslice";
 import { useAppDispatch } from "../../hooks/hooks";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import { contextType } from "../../utils/types";
 import { ContextAPI } from "../../context/context";
+import { showNotification } from "../../slice/notificationSlice";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -75,9 +75,9 @@ function Navbar() {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const [inputValue, setInputValue] = React.useState<string>("");
   const { transcript, resetTranscript, listening } = useSpeechRecognition();
-  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const dataContext = React.useContext<contextType>(ContextAPI);
+  const dispatch = useAppDispatch();
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -96,8 +96,6 @@ function Navbar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const dispatch = useAppDispatch();
-
   const handleSubmit = (
     event:
       | React.MouseEvent<HTMLButtonElement>
@@ -105,6 +103,7 @@ function Navbar() {
   ) => {
     event.preventDefault();
     if (!inputValue) return;
+    if (listening) SpeechRecognition.stopListening();
     resetTranscript();
     setInputValue("");
     dataContext.inputValue = inputValue;
@@ -127,10 +126,11 @@ function Navbar() {
     }
     if (listening) {
       SpeechRecognition.stopListening();
+      dispatch(showNotification({ message: "now recording...", open: true }));
     } else {
       listenContinuously();
-      // transValue += transcript;
-      // setInputValue(transcript);
+      setInputValue(transcript);
+      dispatch(showNotification({ message: "recording stop...", open: true }));
     }
   };
 
@@ -300,7 +300,6 @@ function Navbar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      {/* <Outlet /> */}
     </Stack>
   );
 }
