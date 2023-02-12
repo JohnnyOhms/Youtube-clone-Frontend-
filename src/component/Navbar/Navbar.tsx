@@ -344,7 +344,7 @@ import * as React from "react";
 // }
 
 // export default Navbar;
-
+import { useContext } from "react";
 import { Avatar, IconButton, Typography } from "@mui/material";
 
 import { styled, alpha } from "@mui/material/styles";
@@ -372,53 +372,16 @@ import SpeechRecognition, {
 import { contextType } from "../../utils/types";
 import { ContextAPI } from "../../context/context";
 import { showNotification } from "../../slice/notificationSlice";
+import { SideBarContextAPI } from "../../context/toggleSideBar";
 
-interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window?: () => Window;
-}
-
-const Navbar = (props: Props) => {
-  const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    React.useState<null | HTMLElement>(null);
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+const Navbar = () => {
+  const toggleContextData = useContext(SideBarContextAPI);
+  const { toggleDrawer } = toggleContextData;
   const [inputValue, setInputValue] = React.useState<string>("");
   const { transcript, resetTranscript, listening } = useSpeechRecognition();
   const navigate = useNavigate();
   const dataContext = React.useContext<contextType>(ContextAPI);
   const dispatch = useAppDispatch();
-
-  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
 
   const handleSubmit = (
     event:
@@ -458,69 +421,15 @@ const Navbar = (props: Props) => {
     }
   };
 
-  const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
   return (
     <header>
       <nav id="main-nav">
         <div className="left-icons" style={{ display: "flex" }}>
-          {/* <MenuIcon /> */}
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
-            onClick={handleDrawerToggle}
+            onClick={toggleDrawer("left", true)}
             sx={{ ml: 1, display: { sm: "none" } }}
           >
             <MenuIcon />

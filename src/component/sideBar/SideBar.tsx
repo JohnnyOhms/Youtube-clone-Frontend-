@@ -3,6 +3,7 @@ import React from "react";
 import { sideBarItem } from "../../utils/data";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import MobileSideBar from "./mobileSideBar";
 
 const SideBar = () => {
   const handleClick = (event: React.MouseEvent) => {
@@ -29,21 +30,24 @@ const SideBar = () => {
     );
   });
   return (
-    <div className="wrapper">
-      <div className="sidebar">
-        <ul>
-          <li>
-            <Link to="/" className="active">
-              <span className="icon">
-                <HomeIcon />
-              </span>
-              <span className="item">Home</span>
-            </Link>
-          </li>
-          {sideBar}
-        </ul>
+    <>
+      <MobileSideBar />;
+      <div className="wrapper">
+        <div className="sidebar">
+          <ul>
+            <li>
+              <Link to="/" className="active">
+                <span className="icon">
+                  <HomeIcon />
+                </span>
+                <span className="item">Home</span>
+              </Link>
+            </li>
+            {sideBar}
+          </ul>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
