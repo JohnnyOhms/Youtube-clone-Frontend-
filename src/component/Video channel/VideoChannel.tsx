@@ -70,7 +70,7 @@ const VideoChannel = () => {
     <Box
       // minHeight="95vh"
       sx={{
-        marginTop: "10vh",
+        marginTop: "-5vh",
         marginLeft: { sm: 0, md: 0, lg: "30vh" },
       }}
     >

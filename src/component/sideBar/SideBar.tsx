@@ -1,34 +1,13 @@
 import HomeIcon from "@mui/icons-material/Home";
-import React from "react";
-import { sideBarItem } from "../../utils/data";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import MobileSideBar from "./mobileSideBar";
+import { SideBarContextAPI } from "../../context/toggleSideBar";
 
 const SideBar = () => {
-  const handleClick = (event: React.MouseEvent) => {
-    event.preventDefault();
-    console.log(useParams);
-  };
+  const toggleContextData = useContext(SideBarContextAPI);
+  const { sideBar } = toggleContextData;
 
-  const sideBar = sideBarItem.map((item, index) => {
-    return (
-      <Link
-        key={index}
-        to={item.name === "Saved" ? "/saved_videos" : `?filter=${item.name}`}
-        onClick={handleClick}
-      >
-        <li>
-          <a className={`active ${item.name}`}>
-            <span className="icon">
-              <item.icon />
-            </span>
-            <span className="item">{item.name}</span>
-          </a>
-        </li>
-      </Link>
-    );
-  });
   return (
     <>
       <MobileSideBar />;

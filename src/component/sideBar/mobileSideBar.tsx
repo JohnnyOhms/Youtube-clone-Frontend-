@@ -4,51 +4,78 @@ import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
+
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import { SideBarContextAPI } from "../../context/toggleSideBar";
 
-type Anchor = "top" | "left" | "bottom" | "right";
+import { SideBarContextAPI } from "../../context/toggleSideBar";
+import { Link } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
+import { sideBarItem } from "../../utils/data";
+import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
+import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
+
+type Anchor = "left";
 
 export default function MobileSideBar() {
   const toggleContextData = useContext(SideBarContextAPI);
-  const { toggleDrawer, state } = toggleContextData;
+  const { toggleDrawer, state, handleClick } = toggleContextData;
 
   const list = (anchor: Anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      sx={{
+        width: 250,
+        background: "151414",
+        color: "white",
+      }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
+      <List sx={{ background: "#151414", height: "100vh" }}>
+        <Link to="/" style={{ color: "white" }}>
+          <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              <ListItemIcon
+                sx={{
+                  color: "white",
+                  "&:hover": {
+                    color: "#dee4ec",
+                    background: "grey",
+                    borderRight: "2px solid #000",
+                    borderRadius: "10px",
+                  },
+                }}
+              >
+                <HomeIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary="Home" />
             </ListItemButton>
           </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
+        </Link>
+        {sideBarItem.map((item, index) => (
+          <Link
+            key={index}
+            to={
+              item.name === "Saved" ? "/saved_videos" : `?filter=${item.name}`
+            }
+            onClick={(event) => handleClick(event, item.name)}
+            style={{ color: "white" }}
+          >
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon sx={{ color: "white" }}>
+                  {index === 0 && <LocalFloristIcon />}
+                  {index === 1 && <LocalFireDepartmentIcon />}
+                  {index === 2 && <OndemandVideoIcon />}
+                </ListItemIcon>
+                <ListItemText primary={item.name} />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         ))}
       </List>
     </Box>
@@ -58,7 +85,6 @@ export default function MobileSideBar() {
     <div>
       {(["left"] as const).map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
           <SwipeableDrawer
             anchor={anchor}
             open={state[anchor]}

@@ -459,11 +459,7 @@ const Navbar = () => {
             onChange={(e) => setInputValue(e.target.value)}
             value={inputValue || transcript}
           />
-          <button
-            className="search-icon"
-            // onClick={(e) => handleSubmit(e)}
-            style={{ cursor: "pointer" }}
-          >
+          <button className="search-icon" style={{ cursor: "pointer" }}>
             <SearchIcon sx={{ margin: "auto", color: "white" }} />
           </button>
         </form>
