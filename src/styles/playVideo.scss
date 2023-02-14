@@ -1,40 +1,38 @@
-.playVideo{
-    width: 100vw;
-    margin-top: 12vh;
-    background-color: inherit;
+.playVideo {
+  width: 100vw;
+  margin-top: 1vh;
+  background-color: inherit;
 
+  .related-videos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    column-gap: 15px;
+    row-gap: 15px;
+    overflow-y: auto;
 
-    .related-videos{
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        column-gap: 15px;
-        row-gap: 15px;
-        overflow-y: auto;
+    // &> *{
+    //     margin: 0 auto;
+    // }
 
-        // &> *{
-        //     margin: 0 auto;
-        // }
-        
-        &::-webkit-scrollbar {
-            width: 3px;
-            height: 3px;
-            /* width of the entire scrollbar */
-        }
-
-        &::-webkit-scrollbar-track {
-            background: inherit;
-            /* color of the tracking area */
-            height: 10px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background-color: grey;
-            /* color of the scroll thumb */
-            border-radius: 10px;
-            /* roundness of the scroll thumb */
-            border: 1px solid rgb(86, 80, 80);
-            ;
-            /* creates padding around scroll thumb */
-        }
+    &::-webkit-scrollbar {
+      width: 3px;
+      height: 3px;
+      /* width of the entire scrollbar */
     }
+
+    &::-webkit-scrollbar-track {
+      background: inherit;
+      /* color of the tracking area */
+      height: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: grey;
+      /* color of the scroll thumb */
+      border-radius: 10px;
+      /* roundness of the scroll thumb */
+      border: 1px solid rgb(86, 80, 80);
+      /* creates padding around scroll thumb */
+    }
+  }
 }

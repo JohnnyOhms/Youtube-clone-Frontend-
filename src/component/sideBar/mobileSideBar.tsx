@@ -60,7 +60,9 @@ export default function MobileSideBar() {
           <Link
             key={index}
             to={
-              item.name === "Saved" ? "/saved_videos" : `?filter=${item.name}`
+              item.name === "Saved"
+                ? "/saved_videos"
+                : `/PlayList?filter=${item.name}`
             }
             onClick={(event) => handleClick(event, item.name)}
             style={{ color: "white" }}

@@ -5,8 +5,34 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { Stack } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { VideoPropType, contextType } from "../../utils/types";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../hooks/hooks";
+import { useContext } from "react";
+import { ContextAPI } from "../../context/context";
 
-const PlayListVideo = () => {
+const PlayListVideo = ({
+  id,
+  cahnnelId,
+  imageUrl,
+  title,
+  channel,
+  publishTime,
+}: VideoPropType) => {
+  const navigate = useNavigate();
+  const videos = useAppSelector((state) => state.video.videoResult);
+  const dataContext = useContext<contextType>(ContextAPI);
+
+  const handleClick = () => {
+    const singleVideo = videos?.find((item) => item.id.videoId === id);
+    if (singleVideo) {
+      dataContext.avatarImg = singleVideo.snippet.thumbnails.high.url;
+      dataContext.channelId = singleVideo.snippet.channelId;
+    }
+
+    return navigate(`/video/${id}`);
+  };
+
   return (
     <div className="grid-layout-sideBar">
       <Card
@@ -22,7 +48,7 @@ const PlayListVideo = () => {
         <CardMedia
           component="img"
           height="100%"
-          // image={imageUrl}
+          image={imageUrl}
           alt="video alt"
           sx={{
             borderRadius: "1rem",
@@ -30,7 +56,7 @@ const PlayListVideo = () => {
             background: "grey",
             width: 700,
           }}
-          //   onClick={handleClick}
+          onClick={handleClick}
         />
 
         <CardActions disableSpacing sx={{ padding: 0 }}>
@@ -49,23 +75,24 @@ const PlayListVideo = () => {
                 marginTop: "5px",
               }}
             >
-              saved video Lorem ipsum, dolor sit amet consectetur adipisicing
-              elit. Fuga, debitis?
+              {title.substring(0, 13)}
             </Typography>
 
-            <div style={{ display: "flex" }}>
-              <Avatar sx={{ ml: "5px", marginRight: "8px" }} />
-              <Typography
-                variant="body2"
-                sx={{
-                  color: "grey",
-                  fontSize: { xs: "9px", sm: "10px", md: "12px" },
-                  py: 1,
-                }}
-              >
-                random channel <CheckCircleIcon sx={{ fontSize: 10 }} />
-              </Typography>
-            </div>
+            <Link to={`chaneel/${cahnnelId}`}>
+              <div style={{ display: "flex" }}>
+                <Avatar sx={{ ml: "5px", marginRight: "8px" }} src={imageUrl} />
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "grey",
+                    fontSize: { xs: "9px", sm: "10px", md: "12px" },
+                    py: 1,
+                  }}
+                >
+                  {channel} <CheckCircleIcon sx={{ fontSize: 10 }} />
+                </Typography>
+              </div>
+            </Link>
 
             <Typography
               variant="body2"
@@ -75,7 +102,7 @@ const PlayListVideo = () => {
                 ml: 1,
               }}
             >
-              today
+              {publishTime}
             </Typography>
           </Stack>
         </CardActions>

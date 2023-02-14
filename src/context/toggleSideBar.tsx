@@ -1,8 +1,10 @@
 import React from "react";
 import { createContext } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { sideBarItem } from "../utils/data";
 import { Anchor, sideBarContextType } from "../utils/types";
+import { useAppDispatch } from "../hooks/hooks";
+import { videoAPI } from "../slice/getAPIslice";
 
 export let SideBarContextAPI: React.Context<sideBarContextType>;
 
@@ -12,7 +14,11 @@ const ContextSideBar = ({ children }: any) => {
   });
 
   // functionality of side bar
-  const handleClick = (event: React.MouseEvent, name: string) => {};
+  const dispatch = useAppDispatch();
+
+  const handleClick = (event: React.MouseEvent, name: string) => {
+    dispatch(videoAPI(`search?part=snippet,id&q=${name}`));
+  };
 
   const sideBar = sideBarItem.map((item, index) => {
     return (
