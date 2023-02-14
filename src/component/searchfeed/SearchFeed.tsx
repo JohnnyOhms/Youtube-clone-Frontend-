@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import SideBar from "../sideBar/SideBar";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
@@ -19,7 +19,10 @@ const SearchFeed = () => {
   useEffect(() => {
     setSearchParams({ search_query: dataContext.inputValue });
     dispatch(videoAPI(`search?part=snippet,id&q=${dataContext.inputValue}`));
-  }, [searchParams]);
+  }, [dataContext.inputValue]);
+
+  console.log(videos);
+  console.log(dataContext.inputValue);
 
   return (
     <div>

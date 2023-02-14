@@ -1,0 +1,23 @@
+.sideBar-video {
+  width: 100vw;
+  margin-left: 16vw;
+  padding: 18px;
+}
+
+.grid-layout-sideBar {
+  margin-bottom: 15px;
+  background-color: inherit;
+  height: 250px;
+  width: 100%;
+  max-width: 700px;
+}
+
+@media screen and (max-width: 600px) {
+  .sideBar-video {
+    margin-left: 0;
+  }
+
+  .grid-layout-sideBar {
+    height: 170px;
+  }
+}

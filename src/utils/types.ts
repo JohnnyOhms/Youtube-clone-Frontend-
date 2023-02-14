@@ -55,6 +55,21 @@ export type videoSection = {
 
 export interface contextType {
   inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
   avatarImg: string;
   channelId: string;
+}
+
+export type Anchor = "left";
+
+export interface sideBarContextType {
+  toggleDrawer: (
+    anchor: Anchor,
+    open: boolean
+  ) => (event: React.KeyboardEvent | React.MouseEvent) => void;
+  state: {
+    left: boolean;
+  };
+  sideBar: JSX.Element[];
+  handleClick: (event: React.MouseEvent, name: string) => void;
 }

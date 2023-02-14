@@ -1,14 +1,20 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import { contextType } from "../utils/types";
 
-const contextData = {
-  inputValue: "",
-  avatarImg: "",
-  channelId: "",
-};
+export let ContextAPI: React.Context<contextType>;
 
-export const ContextAPI = createContext<contextType>(contextData);
 const Context = ({ children }: any) => {
+  const [inputValue, setInputValue] = useState<string>("");
+
+  const contextData = {
+    inputValue,
+    setInputValue,
+    avatarImg: "",
+    channelId: "",
+  };
+
+  ContextAPI = createContext(contextData);
+
   return (
     <ContextAPI.Provider value={contextData}>{children}</ContextAPI.Provider>
   );

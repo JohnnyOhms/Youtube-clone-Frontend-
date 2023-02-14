@@ -2,39 +2,27 @@ import React from "react";
 import { createContext } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { sideBarItem } from "../utils/data";
+import { Anchor, sideBarContextType } from "../utils/types";
 
-type Anchor = "top" | "left" | "bottom" | "right";
-export let SideBarContextAPI: React.Context<{
-  toggleDrawer: (
-    anchor: Anchor,
-    open: boolean
-  ) => (event: React.KeyboardEvent | React.MouseEvent) => void;
-  state: {
-    left: boolean;
-  };
-  sideBar: JSX.Element[];
-  handleClick: (event: React.MouseEvent, name: string) => void;
-}>;
+export let SideBarContextAPI: React.Context<sideBarContextType>;
 
 const ContextSideBar = ({ children }: any) => {
   const [state, setState] = React.useState({
     left: false,
   });
-  // const navigate = useNavigate();
 
   // functionality of side bar
-  const handleClick = (event: React.MouseEvent, name: string) => {
-    // navigate("/");
-    console.log(name);
-    // event.preventDefault();
-    // console.log(useParams);
-  };
+  const handleClick = (event: React.MouseEvent, name: string) => {};
 
   const sideBar = sideBarItem.map((item, index) => {
     return (
       <Link
         key={index}
-        to={item.name === "Saved" ? "/saved_videos" : `?filter=${item.name}`}
+        to={
+          item.name === "Saved"
+            ? "/saved_videos"
+            : `/playList?filter=${item.name}`
+        }
         onClick={(event) => handleClick(event, item.name)}
       >
         <li>
