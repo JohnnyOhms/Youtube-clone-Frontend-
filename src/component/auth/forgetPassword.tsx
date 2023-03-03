@@ -1,55 +1,38 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Axios } from "../../utils/axiosInstance";
 import { useNavigate } from "react-router";
 import Navbar from "../Navbar/Navbar";
 import SideBar from "../sideBar/SideBar";
 import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography/Typography";
-import { AuthContextAPI } from "../../context/authContext";
 
-const Login = () => {
+const ForgetPassword = () => {
   const [inputValues, setInputValue] = useState({
     email: "",
-    password: "",
     authMssg: "",
   });
   const navigate = useNavigate();
-  const { setUser } = useContext(AuthContextAPI);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { email, password } = inputValues;
-    if (!email || !password) {
-      return alert("input fields cannot be blank");
+    const { email } = inputValues;
+    if (!email) {
+      return alert("provide an existing email to proceed");
     }
 
-    Axios.post("/auth/login", {
+    Axios.post("/auth/forgot-password", {
       email,
-      password,
     })
-      .then((res) => {
-        setUser({
-          user: res.data.user.user,
-          token: res.data.user.token,
-          loading: true,
-        });
-        setInputValue((prev) => ({
-          ...prev,
-          authMssg: "Acoount Created",
-        }));
-      })
-      .then(() => {
-        setInputValue((prev) => ({ ...prev, authMssg: "" }));
-        setUser((prev) => ({ ...prev, loading: false }));
-        navigate("/");
-      })
+      .then((res) =>
+        navigate(`/auth/reset-password/${res.data.id}/${res.data.token}`)
+      )
       .catch((err) =>
         setInputValue((prev) => ({ ...prev, authMssg: err.response.data }))
       );
   };
 
   return (
-    <>
+    <React.Fragment>
       <Navbar />
       <SideBar />
       <div className="root">
@@ -58,7 +41,7 @@ const Login = () => {
             {inputValues.authMssg ? inputValues.authMssg : null}
           </Typography>
           <div className="register">
-            <h2>Sign In</h2>
+            <h2>Provide Email to reset Password</h2>
 
             <form className="form" onSubmit={handleSubmit}>
               <div className="form__field">
@@ -77,37 +60,20 @@ const Login = () => {
 
               <div className="form__field">
                 <input
-                  type="password"
-                  placeholder="password"
-                  value={inputValues.password}
-                  onChange={(e) =>
-                    setInputValue((prev) => ({
-                      ...prev,
-                      password: e.target.value,
-                    }))
-                  }
-                />
-              </div>
-
-              <div className="form__field">
-                <input
                   type="submit"
-                  value="Sign In"
+                  value="Proceed"
                   style={{ cursor: "pointer" }}
                 />
               </div>
             </form>
-            <Link to="/auth/register">
-              <p>Don't have an accout? Register</p>
-            </Link>
-            <Link to="/auth/forgot-password">
-              <p>Forgot password ? click Here</p>
+            <Link to="/auth/login">
+              <p>Return to login</p>
             </Link>
           </div>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 
-export default Login;
+export default ForgetPassword;

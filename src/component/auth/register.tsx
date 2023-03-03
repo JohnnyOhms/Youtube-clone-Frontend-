@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Axios } from "../../utils/axiosInstance";
 import { useAppDispatch } from "../../hooks/hooks";
-import { loginUser } from "../../slice/authSlice";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import SideBar from "../sideBar/SideBar";
 import Avatar from "@mui/material/Avatar/Avatar";
 import Typography from "@mui/material/Typography/Typography";
+import { AuthContextAPI } from "../../context/authContext";
 
 const Register = () => {
   const [inputValues, setInputValue] = useState({
@@ -16,39 +16,36 @@ const Register = () => {
     password: "",
     authMssg: "",
   });
-
   const [userImg, setUserImg] = useState<any>("");
-
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { setUser } = useContext(AuthContextAPI);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { name, email, password } = inputValues;
-    console.log(inputValues);
     if (name === "" || email === "" || password === "") {
       return alert("input fields cannot be blank");
     }
-    // e.preventDefault();
     Axios.post("/auth/register", {
       name,
       email,
       password,
       userImg,
+      headers: {
+        "content-type": "multipart/form-data",
+      },
     })
       .then((res) => {
-        dispatch(
-          loginUser({
-            user: res.data.user.user,
-            token: res.data.user.token,
-            loading: true,
-          })
-        );
+        setUser({
+          user: res.data.user.user,
+          token: res.data.user.token,
+          loading: true,
+        });
         setInputValue((prev) => ({ ...prev, authMssg: "Acoount Created" }));
       })
       .then(() => {
         setInputValue((prev) => ({ ...prev, authMssg: "" }));
-        dispatch(loginUser({ loading: false }));
+        setUser((prev) => ({ ...prev, loading: false }));
         navigate("/");
       })
       .catch((err) =>
@@ -63,15 +60,17 @@ const Register = () => {
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const reader = new FileReader();
-      reader.readAsDataURL(e.target.files[0]);
-      reader.onload = function () {
-        setUserImg(reader.result);
-      };
-      reader.onerror = function (error) {
-        console.log("Error: ", error);
-      };
+      setUserImg(e.target.files[0]);
+      //   // const reader = new FileReader();
+      //   // reader.readAsDataURL(e.target.files[0]);
+      //   // reader.onload = function () {
+      //   //   setUserImg(reader.result);
+      //   // };
+      //   // reader.onerror = function (error) {
+      //   //   console.log("Error: ", error);
+      //   // };
     }
+    console.log(e.target.files);
   };
 
   return (
@@ -97,7 +96,7 @@ const Register = () => {
                   width: "5rem",
                 }}
                 onClick={addImage}
-                src={userImg}
+                // src={userImg}
               />
             </div>
 
@@ -154,9 +153,9 @@ const Register = () => {
               </div>
             </form>
 
-            <p>
-              Already have an accout? <Link to="/auth/login">login</Link>
-            </p>
+            <Link to="/auth/login">
+              <p>Already have an accout? login</p>
+            </Link>
           </div>
         </div>
       </div>
