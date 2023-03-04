@@ -1,3 +1,4 @@
+import {useContext} from "react"
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardActions from "@mui/material/CardActions";
@@ -5,8 +6,51 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { Stack } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { useNavigate } from "react-router-dom";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { Axios } from "../../utils/axiosInstance";
+import { ContextAPI } from "../../context/context"
 
-const SavedVideo = () => {
+const SavedVideo = ({
+  channel,
+  title,
+  createdAt,
+  _id,
+  thumbnail,
+  videoId,
+}) => {
+  const navigate = useNavigate();
+  const {singleDel, setSingleDel, savedVideos,setSavedVideos, setDisplay} = useContext(ContextAPI)
+
+  const handleClick = () => {
+    navigate(`/video/${videoId}`);
+  };
+
+  const refreshList = () => {
+     setDisplay(false);
+    Axios.get("/videos")
+      .then((res) => {
+        setSavedVideos(res.data.videos);
+      })
+      .catch((err) => {
+        alert("failed to load, refreash page");
+        navigate("/");
+      });
+  }
+
+  const handleDelete = () => {
+    Axios.post(`/videos/single-delete`, {
+      _id,
+    })
+      .then((res) => {
+        alert(res.data.videos._id + " deleted");
+        // setSingleDel(res.data.videos._id)
+        //  savedVideos = savedVideos.filter((item) => item._id !== singleDel);
+        // navigate(`/saved_videos`);
+        refreshList()
+      })
+      .catch((err) => alert(err));
+  };
   return (
     <div className="grid-layout-sideBar">
       <Card
@@ -22,7 +66,7 @@ const SavedVideo = () => {
         <CardMedia
           component="img"
           height="100%"
-          // image={imageUrl}
+          image={thumbnail}
           alt="video alt"
           sx={{
             borderRadius: "1rem",
@@ -30,7 +74,7 @@ const SavedVideo = () => {
             background: "grey",
             width: 700,
           }}
-          //   onClick={handleClick}
+          onClick={handleClick}
         />
 
         <CardActions disableSpacing sx={{ padding: 0 }}>
@@ -49,12 +93,11 @@ const SavedVideo = () => {
                 marginTop: "5px",
               }}
             >
-              saved video Lorem ipsum, dolor sit amet consectetur adipisicing
-              elit. Fuga, debitis?
+              {title}
             </Typography>
 
             <div style={{ display: "flex" }}>
-              <Avatar sx={{ ml: "5px", marginRight: "8px" }} />
+              <Avatar sx={{ ml: "5px", marginRight: "8px" }} src={thumbnail} />
               <Typography
                 variant="body2"
                 sx={{
@@ -63,7 +106,7 @@ const SavedVideo = () => {
                   py: 1,
                 }}
               >
-                random channel <CheckCircleIcon sx={{ fontSize: 10 }} />
+                {channel} <CheckCircleIcon sx={{ fontSize: 10 }} />
               </Typography>
             </div>
 
@@ -75,7 +118,21 @@ const SavedVideo = () => {
                 ml: 1,
               }}
             >
-              today
+              {new Date(createdAt).toDateString()}
+            </Typography>
+
+            <Typography
+              sx={{
+                color: "#df3434",
+                ml: 1,
+                marginTop: "20px",
+                cursor: "pointer",
+              }}
+              onClick={handleDelete}
+            >
+              <DeleteForeverIcon
+                sx={{ fontSize: { xs: "15px", sm: "20px", md: "34px" } }}
+              />
             </Typography>
           </Stack>
         </CardActions>

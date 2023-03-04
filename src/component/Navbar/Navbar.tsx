@@ -6,15 +6,14 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import { red } from "@mui/material/colors";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import MicIcon from "@mui/icons-material/Mic";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { useAppDispatch } from "../../hooks/hooks";
+import { Link, useNavigate } from "react-router-dom";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import { contextType } from "../../utils/types";
 import { ContextAPI } from "../../context/context";
-import { showNotification } from "../../slice/notificationSlice";
 import { SideBarContextAPI } from "../../context/toggleSideBar";
+import { AuthContextAPI } from "../../context/authContext";
 
 const Navbar = () => {
   const toggleContextData = useContext(SideBarContextAPI);
@@ -23,7 +22,7 @@ const Navbar = () => {
   const { transcript, resetTranscript, listening } = useSpeechRecognition();
   const navigate = useNavigate();
   const dataContext = React.useContext<contextType>(ContextAPI);
-  const dispatch = useAppDispatch();
+  const { user } = useContext(AuthContextAPI);
 
   const handleSubmit = (
     event:
@@ -55,11 +54,11 @@ const Navbar = () => {
     }
     if (listening) {
       SpeechRecognition.stopListening();
-      dispatch(showNotification({ message: "now recording...", open: true }));
+      alert("Recording stopped, click ok");
     } else {
       listenContinuously();
       setInputValue(transcript);
-      dispatch(showNotification({ message: "recording stop...", open: true }));
+      alert("Click 'ok' to start listening");
     }
   };
 
@@ -132,8 +131,12 @@ const Navbar = () => {
               onClick={voiceSearch}
             />
           )}
-
-          <Avatar />
+          <div>
+            <Avatar />
+            <p style={{ fontSize: "13px", margin: "1px auto" }}>
+              {user.user.substring(0, 6)}
+            </p>
+          </div>
         </div>
       </nav>
     </header>

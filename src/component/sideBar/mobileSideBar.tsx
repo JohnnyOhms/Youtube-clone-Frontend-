@@ -2,14 +2,11 @@ import * as React from "react";
 import { useContext } from "react";
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Button from "@mui/material/Button";
 import List from "@mui/material/List";
-
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-
 import { SideBarContextAPI } from "../../context/toggleSideBar";
 import { Link } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
@@ -17,18 +14,20 @@ import { sideBarItem } from "../../utils/data";
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
+import { AuthContextAPI } from "../../context/authContext";
 
 type Anchor = "left";
 
 export default function MobileSideBar() {
-  const toggleContextData = useContext(SideBarContextAPI);
-  const { toggleDrawer, state, handleClick } = toggleContextData;
+  const { toggleDrawer, state, handleClick } = useContext(SideBarContextAPI);
+  const { user, setUser } = useContext(AuthContextAPI);
 
   const list = (anchor: Anchor) => (
     <Box
       sx={{
         width: 250,
-        background: "151414",
+        background: "#151414",
         color: "white",
       }}
       role="presentation"
@@ -79,6 +78,36 @@ export default function MobileSideBar() {
             </ListItem>
           </Link>
         ))}
+        {/* auth tab */}
+        {!user.user && (
+          <Link to="/auth/register" style={{ color: "white" }}>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon sx={{ color: "white" }}>
+                  <MeetingRoomIcon />
+                </ListItemIcon>
+                <ListItemText primary="login" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        )}
+        {user.user && (
+          <Link
+            to="/"
+            style={{ color: "white" }}
+            onClick={() => setUser({ user: "", token: "", loading: false })}
+          >
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon sx={{ color: "white" }}>
+                  <MeetingRoomIcon />
+                </ListItemIcon>
+                <ListItemText primary="log Out" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        )}
+        {/*  */}
       </List>
     </Box>
   );

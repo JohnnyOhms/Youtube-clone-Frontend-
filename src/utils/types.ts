@@ -1,7 +1,14 @@
 export type requestType<T> = T | null;
 export type responseType = DisplayVideoType[];
 export type videoResult<T> = T | responseType;
-export type notificationType<T> = T | { message: string; open: boolean };
+export type authType<T> =
+  | T
+  | {
+      user?: string | undefined;
+      image?: any;
+      token?: string | undefined;
+      loading: boolean | undefined;
+    };
 
 export interface DisplayVideoType extends channelDetails {
   id: { videoId: string };
@@ -47,6 +54,15 @@ export type VideoPropType = {
   title: string;
 };
 
+export type savedVideoPropType = {
+  _id: string;
+  channel: string;
+  createdAt: string;
+  thumbnail: string;
+  title: string;
+  videoId: string;
+};
+
 export type videoSection = {
   videos: videoResult<null> | undefined;
   error?: Boolean | undefined;
@@ -58,6 +74,27 @@ export interface contextType {
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
   avatarImg: string;
   channelId: string;
+  savedVideos: [];
+  setSavedVideos: React.Dispatch<React.SetStateAction<any>>;
+  display: boolean;
+  setDisplay: React.Dispatch<React.SetStateAction<boolean>>;
+  singleDel: string;
+  setSingleDel: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface AuthcontextType {
+  user: {
+    user: string;
+    token: string;
+    loading: boolean;
+  };
+  setUser: React.Dispatch<
+    React.SetStateAction<{
+      user: string;
+      token: string;
+      loading: boolean;
+    }>
+  >;
 }
 
 export type Anchor = "left";

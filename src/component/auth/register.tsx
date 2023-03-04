@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { Axios } from "../../utils/axiosInstance";
-import { useAppDispatch } from "../../hooks/hooks";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
@@ -8,6 +7,7 @@ import SideBar from "../sideBar/SideBar";
 import Avatar from "@mui/material/Avatar/Avatar";
 import Typography from "@mui/material/Typography/Typography";
 import { AuthContextAPI } from "../../context/authContext";
+import { addTokenToLocalStorage } from "../../utils/localStorage";
 
 const Register = () => {
   const [inputValues, setInputValue] = useState({
@@ -42,6 +42,7 @@ const Register = () => {
           loading: true,
         });
         setInputValue((prev) => ({ ...prev, authMssg: "Acoount Created" }));
+        addTokenToLocalStorage(res.data.user.token);
       })
       .then(() => {
         setInputValue((prev) => ({ ...prev, authMssg: "" }));

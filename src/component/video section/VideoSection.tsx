@@ -1,4 +1,3 @@
-import React from "react";
 import Video from "../video/video";
 import { videoSection } from "../../utils/types";
 import ErrorMssg from "../error/errorMssg";
@@ -22,8 +21,7 @@ const VideoSection = ({ videos, error, loading }: videoSection) => {
               publishTime={item.snippet.publishTime}
             />
           );
-        } )}
-      
+        })}
     </div>
   );
 };

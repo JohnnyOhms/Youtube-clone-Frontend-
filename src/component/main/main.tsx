@@ -1,10 +1,8 @@
-import React from "react";
 import Navbar from "../Navbar/Navbar";
 import SideBar from "../sideBar/SideBar";
 import Category from "../categories/category";
 import VideoSection from "../video section/VideoSection";
 import { useAppSelector } from "../../hooks/hooks";
-import MobileSideBar from "../sideBar/mobileSideBar";
 
 const Main = () => {
   const videos = useAppSelector((state) => state.video.videoResult);

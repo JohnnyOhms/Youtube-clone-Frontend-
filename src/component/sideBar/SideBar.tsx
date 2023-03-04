@@ -3,10 +3,13 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import MobileSideBar from "./mobileSideBar";
 import { SideBarContextAPI } from "../../context/toggleSideBar";
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
+import { AuthContextAPI } from "../../context/authContext";
 
 const SideBar = () => {
   const toggleContextData = useContext(SideBarContextAPI);
   const { sideBar } = toggleContextData;
+  const { user, setUser } = useContext(AuthContextAPI);
 
   return (
     <>
@@ -23,6 +26,28 @@ const SideBar = () => {
               </Link>
             </li>
             {sideBar}
+            {!user.user && (
+              <li>
+                <Link to="/auth/register" className="active">
+                  <span className="icon">
+                    <MeetingRoomIcon />
+                  </span>
+                  <span className="item">Login</span>
+                </Link>
+              </li>
+            )}
+            {user.user && (
+              <li
+                onClick={() => setUser({ user: "", token: "", loading: false })}
+              >
+                <Link to="/" className="active">
+                  <span className="icon">
+                    <MeetingRoomIcon />
+                  </span>
+                  <span className="item">Log Out</span>
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>

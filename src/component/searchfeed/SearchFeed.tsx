@@ -21,9 +21,6 @@ const SearchFeed = () => {
     dispatch(videoAPI(`search?part=snippet,id&q=${dataContext.inputValue}`));
   }, [dataContext.inputValue]);
 
-  console.log(videos);
-  console.log(dataContext.inputValue);
-
   return (
     <div>
       <Navbar />

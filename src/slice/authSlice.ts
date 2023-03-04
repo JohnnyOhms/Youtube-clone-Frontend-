@@ -4,6 +4,7 @@ import { authType } from "../utils/types";
 const initialState: authType<null> = {
   user: "",
   token: "",
+  image: "",
   loading: false,
 };
 
@@ -13,17 +14,16 @@ const authSlice = createSlice({
   reducers: {
     loginUser: (state, action: PayloadAction<authType<null>>) => {
       if (action.payload) {
-        state = {
-          user: action.payload.user,
-          token: action.payload.token,
-          loading: action.payload.loading,
-        };
+        // state = {
+        //   user: action.payload.user
+        // };
       }
     },
     logoutUser: (state, action: PayloadAction<authType<null>>) => {
       state = {
         user: "",
         token: "",
+        image: "",
         loading: action.payload?.loading,
       };
     },

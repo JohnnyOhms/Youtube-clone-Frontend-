@@ -75,7 +75,7 @@ const PlayListVideo = ({
                 marginTop: "5px",
               }}
             >
-              {title.substring(0, 13)}
+              {title.substring(0, 30)}
             </Typography>
 
             <Link to={`chaneel/${cahnnelId}`}>

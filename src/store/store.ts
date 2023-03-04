@@ -1,13 +1,11 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import VideoSlice from "../slice/getAPIslice";
 import RelatedVideoSlice from "../slice/getRelatedVideo";
-import notificationSlice from "../slice/notificationSlice";
 
 export const store = configureStore({
   reducer: {
     video: VideoSlice,
     relatedVideo: RelatedVideoSlice,
-    notification: notificationSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

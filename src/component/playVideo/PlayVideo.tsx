@@ -4,7 +4,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ReactPlayer from "react-player";
 import Video from "../video/video";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { videoAPI } from "../../slice/getAPIslice";
 import { contextType, videoResult } from "../../utils/types";
@@ -13,6 +13,7 @@ import ErrorMssg from "../error/errorMssg";
 import Navbar from "../Navbar/Navbar";
 import { RelatedVideoAPI } from "../../slice/getRelatedVideo";
 import { ContextAPI } from "../../context/context";
+import { Axios } from "../../utils/axiosInstance";
 
 const PlayVideo = (): JSX.Element => {
   const { videoId } = useParams();
@@ -55,6 +56,24 @@ const PlayVideo = (): JSX.Element => {
   const handleClick = () => {
     navigate(`/channel/${dataContext.channelId}`);
     console.log("ok");
+  };
+
+  const SaveVideo = () => {
+    if (video) {
+      Axios.post("/videos", {
+        title: video[0].snippet.title,
+        channel: video[0].snippet.channelTitle,
+        thumbnail: dataContext.avatarImg,
+        videoId,
+      })
+        .then((res) => {
+          dataContext.setSavedVideos((prev: any) => {
+            return [...prev, res.data.videos];
+          });
+          alert("video saved, check on the saved bar to watch later");
+        })
+        .catch((err) => alert(err.response.data));
+    }
   };
 
   const videoPlayer: JSX.Element = (
@@ -123,12 +142,14 @@ const PlayVideo = (): JSX.Element => {
             marginTop: "27px",
             margingRight: "20px",
             borderRadius: "2rem",
+            fontSize: "12px",
 
             "&:hover": {
               background: "#807979",
               boder: "2px solid #e0e0e0",
             },
           }}
+          onClick={SaveVideo}
         >
           Save
         </Button>

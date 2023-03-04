@@ -6,6 +6,7 @@ import SideBar from "../sideBar/SideBar";
 import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography/Typography";
 import { AuthContextAPI } from "../../context/authContext";
+import { addTokenToLocalStorage } from "../../utils/localStorage";
 
 const Login = () => {
   const [inputValues, setInputValue] = useState({
@@ -37,6 +38,7 @@ const Login = () => {
           ...prev,
           authMssg: "Acoount Created",
         }));
+        addTokenToLocalStorage(res.data.user.token);
       })
       .then(() => {
         setInputValue((prev) => ({ ...prev, authMssg: "" }));
