@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 import { SideBarContextAPI } from "../../context/toggleSideBar";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import { AuthContextAPI } from "../../context/authContext";
-import { deleteTokenFromLocalStorage } from "../../utils/localStorage";
+import {
+  deleteTokenFromLocalStorage,
+  deleteUserFromLocalStorage,
+} from "../../utils/localStorage";
 
 const SideBar = () => {
   const toggleContextData = useContext(SideBarContextAPI);
@@ -40,6 +43,7 @@ const SideBar = () => {
                 onClick={() => {
                   setUser({ user: "", token: "", loading: false });
                   deleteTokenFromLocalStorage();
+                  deleteUserFromLocalStorage();
                 }}
               >
                 <Link to="/" className="active">

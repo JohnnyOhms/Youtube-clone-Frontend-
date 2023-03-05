@@ -22,7 +22,7 @@ const Navbar = () => {
   const { transcript, resetTranscript, listening } = useSpeechRecognition();
   const navigate = useNavigate();
   const dataContext = React.useContext<contextType>(ContextAPI);
-  const { user } = useContext(AuthContextAPI);
+  const { user, userImg } = useContext(AuthContextAPI);
 
   const handleSubmit = (
     event:
@@ -132,7 +132,7 @@ const Navbar = () => {
             />
           )}
           <div>
-            <Avatar />
+            <Avatar src={userImg} />
             <p style={{ fontSize: "13px", margin: "1px auto" }}>
               {user.user.substring(0, 6)}
             </p>

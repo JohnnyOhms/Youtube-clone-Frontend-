@@ -7,7 +7,10 @@ import SideBar from "../sideBar/SideBar";
 import Avatar from "@mui/material/Avatar/Avatar";
 import Typography from "@mui/material/Typography/Typography";
 import { AuthContextAPI } from "../../context/authContext";
-import { addTokenToLocalStorage } from "../../utils/localStorage";
+import {
+  addTokenToLocalStorage,
+  addCredentialToLocalStorage,
+} from "../../utils/localStorage";
 
 const Register = () => {
   const [inputValues, setInputValue] = useState({
@@ -16,10 +19,9 @@ const Register = () => {
     password: "",
     authMssg: "",
   });
-  const [userImg, setUserImg] = useState<any>("");
   const navigate = useNavigate();
   const location = useLocation();
-  const { setUser } = useContext(AuthContextAPI);
+  const { setUser, userImg, setUserImg } = useContext(AuthContextAPI);
   const redirect = location.state?.path || "/";
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,10 +34,6 @@ const Register = () => {
       name,
       email,
       password,
-      userImg,
-      headers: {
-        "content-type": "multipart/form-data",
-      },
     })
       .then((res) => {
         setUser({
@@ -45,6 +43,7 @@ const Register = () => {
         });
         setInputValue((prev) => ({ ...prev, authMssg: "Acoount Created" }));
         addTokenToLocalStorage(res.data.user.token);
+        addCredentialToLocalStorage([email, password, userImg]);
       })
       .then(() => {
         setInputValue((prev) => ({ ...prev, authMssg: "" }));
@@ -67,14 +66,10 @@ const Register = () => {
       reader.readAsDataURL(e.target.files[0]);
       reader.onload = function () {
         setUserImg(reader.result);
-        Axios.post("/upload", {
-          uploadImg: reader.result,
-        }).catch((err) => console.log(err));
       };
       reader.onerror = function (error) {
         console.log("Error: ", error);
       };
-      console.log(e.target.files[0].name);
     }
   };
 

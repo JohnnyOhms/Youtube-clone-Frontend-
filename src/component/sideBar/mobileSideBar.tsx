@@ -16,7 +16,10 @@ import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import { AuthContextAPI } from "../../context/authContext";
-import { deleteTokenFromLocalStorage } from "../../utils/localStorage";
+import {
+  deleteTokenFromLocalStorage,
+  deleteUserFromLocalStorage,
+} from "../../utils/localStorage";
 
 type Anchor = "left";
 
@@ -99,6 +102,7 @@ export default function MobileSideBar() {
             onClick={() => {
               setUser({ user: "", token: "", loading: false });
               deleteTokenFromLocalStorage();
+              deleteUserFromLocalStorage();
             }}
           >
             <ListItem disablePadding>

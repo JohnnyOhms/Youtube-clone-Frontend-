@@ -9,10 +9,13 @@ const AuthContext = ({ children }: any) => {
     token: "",
     loading: false,
   });
+  const [userImg, setUserImg] = useState<any>("");
 
   const contextData = {
     user,
     setUser,
+    userImg,
+    setUserImg,
   };
 
   AuthContextAPI = createContext(contextData);

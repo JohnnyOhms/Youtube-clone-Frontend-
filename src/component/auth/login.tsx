@@ -6,7 +6,11 @@ import SideBar from "../sideBar/SideBar";
 import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography/Typography";
 import { AuthContextAPI } from "../../context/authContext";
-import { addTokenToLocalStorage } from "../../utils/localStorage";
+import {
+  addCredentialToLocalStorage,
+  addTokenToLocalStorage,
+} from "../../utils/localStorage";
+import Avatar from "@mui/material/Avatar/Avatar";
 
 const Login = () => {
   const [inputValues, setInputValue] = useState({
@@ -16,7 +20,7 @@ const Login = () => {
   });
   const navigate = useNavigate();
   const location = useLocation();
-  const { setUser } = useContext(AuthContextAPI);
+  const { setUser, userImg, setUserImg } = useContext(AuthContextAPI);
   const redirect = location.state?.path || "/";
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,6 +45,7 @@ const Login = () => {
           authMssg: "Acoount Created",
         }));
         addTokenToLocalStorage(res.data.user.token);
+        addCredentialToLocalStorage([email, password, userImg]);
       })
       .then(() => {
         setInputValue((prev) => ({ ...prev, authMssg: "" }));
@@ -50,6 +55,24 @@ const Login = () => {
       .catch((err) =>
         setInputValue((prev) => ({ ...prev, authMssg: err.response.data }))
       );
+  };
+
+  const addImage = () => {
+    const filePath = document.getElementById("add-image") as HTMLInputElement;
+    filePath.click();
+  };
+
+  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.onload = function () {
+        setUserImg(reader.result);
+      };
+      reader.onerror = function (error) {
+        console.log("Error: ", error);
+      };
+    }
   };
 
   return (
@@ -63,6 +86,22 @@ const Login = () => {
           </Typography>
           <div className="register">
             <h2>Sign In</h2>
+            <div className="site__logo">
+              <input type="file" hidden id="add-image" onChange={handleFile} />
+              <Typography sx={{ fontSize: "13px", marginBottom: "10px" }}>
+                Click to add Image (optional)
+              </Typography>
+              <Avatar
+                sx={{
+                  margin: "0 auto",
+                  cursor: "pointer",
+                  height: "5rem",
+                  width: "5rem",
+                }}
+                onClick={addImage}
+                src={userImg}
+              />
+            </div>
 
             <form className="form" onSubmit={handleSubmit}>
               <div className="form__field">

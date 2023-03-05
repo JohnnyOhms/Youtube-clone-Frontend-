@@ -107,6 +107,8 @@ export interface AuthcontextType {
       loading: boolean;
     }>
   >;
+  userImg: string | any;
+  setUserImg: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export type Anchor = "left";
