@@ -67,6 +67,9 @@ const Register = () => {
       reader.readAsDataURL(e.target.files[0]);
       reader.onload = function () {
         setUserImg(reader.result);
+        Axios.post("/upload", {
+          uploadImg: reader.result,
+        }).catch((err) => console.log(err));
       };
       reader.onerror = function (error) {
         console.log("Error: ", error);

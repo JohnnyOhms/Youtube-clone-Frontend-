@@ -7,7 +7,6 @@ $base-font-family: Helvetica Neue;
 $base-font-family-fallback: sans-serif;
 
 .root {
-  //   background-color: $base-bgcolor;
   color: $base-color;
   font: $base-font-weight #{$base-font-size}/#{$base-line-height}
       $base-font-family,
@@ -138,5 +137,15 @@ a {
   .grid {
     width: 100%;
     margin-left: 5px;
+  }
+
+  .align {
+    display: flex;
+    flex-direction: row;
+
+    &__item {
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 }
