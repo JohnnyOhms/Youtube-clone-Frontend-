@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Axios } from "../../utils/axiosInstance";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import SideBar from "../sideBar/SideBar";
@@ -18,7 +18,9 @@ const Register = () => {
   });
   const [userImg, setUserImg] = useState<any>("");
   const navigate = useNavigate();
-  const { setUser, user } = useContext(AuthContextAPI);
+  const location = useLocation();
+  const { setUser } = useContext(AuthContextAPI);
+  const redirect = location.state?.path || "/";
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,7 +49,7 @@ const Register = () => {
       .then(() => {
         setInputValue((prev) => ({ ...prev, authMssg: "" }));
         setUser((prev) => ({ ...prev, loading: false }));
-        navigate("/");
+        navigate(redirect, { replace: true });
       })
       .catch((err) =>
         setInputValue((prev) => ({ ...prev, authMssg: err.response.data }))
@@ -61,17 +63,16 @@ const Register = () => {
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setUserImg(e.target.files[0]);
-      //   // const reader = new FileReader();
-      //   // reader.readAsDataURL(e.target.files[0]);
-      //   // reader.onload = function () {
-      //   //   setUserImg(reader.result);
-      //   // };
-      //   // reader.onerror = function (error) {
-      //   //   console.log("Error: ", error);
-      //   // };
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.onload = function () {
+        setUserImg(reader.result);
+      };
+      reader.onerror = function (error) {
+        console.log("Error: ", error);
+      };
+      console.log(e.target.files[0].name);
     }
-    console.log(e.target.files);
   };
 
   return (
@@ -97,7 +98,7 @@ const Register = () => {
                   width: "5rem",
                 }}
                 onClick={addImage}
-                // src={userImg}
+                src={userImg}
               />
             </div>
 

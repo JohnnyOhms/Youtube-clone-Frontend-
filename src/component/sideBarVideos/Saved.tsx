@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
+import AutoDeleteIcon from "@mui/icons-material/AutoDelete";
 
 const Saved = () => {
   const { savedVideos, setSavedVideos, display, setDisplay } =
@@ -84,6 +85,20 @@ const Saved = () => {
       });
   };
 
+  const deleteSaved = () => {
+    if (confirm("Delete all saved Videos?")) {
+      Axios.delete(`/videos/delete-all`)
+        .then((res) => {
+          setSavedVideos([]);
+        })
+        .catch((err) => {
+          alert("something went wrong, try again");
+        });
+    } else {
+      return;
+    }
+  };
+
   return (
     <React.Fragment>
       <Navbar />
@@ -136,6 +151,17 @@ const Saved = () => {
                 onClick={ZtoA}
               >
                 Z-A
+              </Button>
+              <Button
+                sx={{ borderColor: "#df3434", color: "white" }}
+                onClick={deleteSaved}
+              >
+                <AutoDeleteIcon
+                  sx={{
+                    fontSize: { xs: "15px", sm: "20px", md: "34px" },
+                    color: "whites",
+                  }}
+                />
               </Button>
             </ButtonGroup>
           </Box>

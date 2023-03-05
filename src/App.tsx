@@ -5,7 +5,6 @@ import Main from "./component/main/main";
 import NotFoundPage from "./component/notFoundPage/NotFoundPage";
 import LazyLoad from "./component/loader/LazyLoad";
 import Context from "./context/context";
-import Saved from "./component/sideBarVideos/Saved";
 import ContextSideBar from "./context/toggleSideBar";
 import PlayList from "./component/PlayList/PlayList";
 import Register from "./component/auth/register";
@@ -14,10 +13,12 @@ import ForgetPassword from "./component/auth/forgetPassword";
 import ResetPassword from "./component/auth/resetPassword";
 import AuthContext from "./context/authContext";
 import SearchFeed from "./component/searchfeed/SearchFeed";
-const PlayVideo = React.lazy(() => import("./component/playVideo/PlayVideo"));
+import ProtectedRoute from "./component/protected/protectedRoute";
+const PlayVideo = lazy(() => import("./component/playVideo/PlayVideo"));
 const VideoChannel = lazy(
   () => import("./component/Video channel/VideoChannel")
 );
+const Saved = lazy(() => import("./component/sideBarVideos/Saved"));
 
 function App() {
   const theme = createTheme({
@@ -57,7 +58,16 @@ function App() {
                     }
                   />
                   <Route path="/search" element={<SearchFeed />} />
-                  <Route path="/saved_videos" element={<Saved />} />
+                  <Route
+                    path="/saved_videos"
+                    element={
+                      <ProtectedRoute>
+                        <Suspense fallback={<LazyLoad />}>
+                          <Saved />
+                        </Suspense>
+                      </ProtectedRoute>
+                    }
+                  />
                   <Route path="/playList" element={<PlayList />} />
                   <Route path="/auth/register" element={<Register />} />
                   <Route path="/auth/login" element={<Login />} />

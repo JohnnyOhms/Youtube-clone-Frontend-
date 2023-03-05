@@ -25,7 +25,7 @@ const ContextSideBar = ({ children }: any) => {
       <Link
         key={index}
         to={
-          item.name === "Saved"
+          item.name === "Saved Videos"
             ? "/saved_videos"
             : `/playList?filter=${item.name}`
         }

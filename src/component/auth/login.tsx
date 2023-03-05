@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Axios } from "../../utils/axiosInstance";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import Navbar from "../Navbar/Navbar";
 import SideBar from "../sideBar/SideBar";
 import { Link } from "react-router-dom";
@@ -15,7 +15,9 @@ const Login = () => {
     authMssg: "",
   });
   const navigate = useNavigate();
-  const { setUser, user } = useContext(AuthContextAPI);
+  const location = useLocation();
+  const { setUser } = useContext(AuthContextAPI);
+  const redirect = location.state?.path || "/";
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,7 +45,7 @@ const Login = () => {
       .then(() => {
         setInputValue((prev) => ({ ...prev, authMssg: "" }));
         setUser((prev) => ({ ...prev, loading: false }));
-        navigate("/");
+        navigate(redirect, { replace: true });
       })
       .catch((err) =>
         setInputValue((prev) => ({ ...prev, authMssg: err.response.data }))
@@ -94,7 +96,7 @@ const Login = () => {
               <div className="form__field">
                 <input
                   type="submit"
-                  value="Sign In"
+                  value="Log in"
                   style={{ cursor: "pointer" }}
                 />
               </div>
