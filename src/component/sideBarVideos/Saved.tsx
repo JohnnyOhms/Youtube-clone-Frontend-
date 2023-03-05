@@ -86,17 +86,17 @@ const Saved = () => {
   };
 
   const deleteSaved = () => {
-    if (confirm("Delete all saved Videos?")) {
-      Axios.delete(`/videos/delete-all`)
-        .then((res) => {
-          setSavedVideos([]);
-        })
-        .catch((err) => {
-          alert("something went wrong, try again");
-        });
-    } else {
-      return;
-    }
+    // if (confirm("Delete all saved Videos?")) {
+    Axios.delete(`/videos/delete-all`)
+      .then((res) => {
+        setSavedVideos([]);
+      })
+      .catch((err) => {
+        alert("something went wrong, try again");
+      });
+    // } else {
+    //   return;
+    // }
   };
 
   return (
