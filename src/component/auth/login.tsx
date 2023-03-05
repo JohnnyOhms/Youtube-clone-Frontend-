@@ -26,7 +26,7 @@ const Login = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { email, password } = inputValues;
-    if (!email || !password) {
+    if (!email || !password || !userImg) {
       return alert("input fields cannot be blank");
     }
 
@@ -89,7 +89,7 @@ const Login = () => {
             <div className="site__logo">
               <input type="file" hidden id="add-image" onChange={handleFile} />
               <Typography sx={{ fontSize: "13px", marginBottom: "10px" }}>
-                Click to add Image (optional)
+                Click to add Image (required)
               </Typography>
               <Avatar
                 sx={{

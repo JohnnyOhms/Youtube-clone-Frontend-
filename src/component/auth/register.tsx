@@ -27,7 +27,7 @@ const Register = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { name, email, password } = inputValues;
-    if (name === "" || email === "" || password === "") {
+    if (name === "" || email === "" || password === "" || !userImg) {
       return alert("input fields cannot be blank");
     }
     Axios.post("/auth/register", {
@@ -86,7 +86,7 @@ const Register = () => {
             <div className="site__logo">
               <input type="file" hidden id="add-image" onChange={handleFile} />
               <Typography sx={{ fontSize: "13px", marginBottom: "10px" }}>
-                Click to add Image (optional)
+                Click to add Image (required)
               </Typography>
               <Avatar
                 sx={{

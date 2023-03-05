@@ -12,7 +12,7 @@ import {
 const SideBar = () => {
   const toggleContextData = useContext(SideBarContextAPI);
   const { sideBar } = toggleContextData;
-  const { user, setUser } = useContext(AuthContextAPI);
+  const { user, setUser, setUserImg } = useContext(AuthContextAPI);
 
   return (
     <>
@@ -44,6 +44,7 @@ const SideBar = () => {
                   setUser({ user: "", token: "", loading: false });
                   deleteTokenFromLocalStorage();
                   deleteUserFromLocalStorage();
+                  setUserImg("");
                 }}
               >
                 <Link to="/" className="active">

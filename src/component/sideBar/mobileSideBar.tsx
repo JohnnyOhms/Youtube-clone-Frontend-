@@ -25,7 +25,7 @@ type Anchor = "left";
 
 export default function MobileSideBar() {
   const { toggleDrawer, state, handleClick } = useContext(SideBarContextAPI);
-  const { user, setUser } = useContext(AuthContextAPI);
+  const { user, setUser, setUserImg } = useContext(AuthContextAPI);
 
   const list = (anchor: Anchor) => (
     <Box
@@ -103,6 +103,7 @@ export default function MobileSideBar() {
               setUser({ user: "", token: "", loading: false });
               deleteTokenFromLocalStorage();
               deleteUserFromLocalStorage();
+              setUserImg("");
             }}
           >
             <ListItem disablePadding>
