@@ -1,10 +1,10 @@
 import HomeIcon from "@mui/icons-material/Home";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import MobileSideBar from "./mobileSideBar";
 import { SideBarContextAPI } from "../../context/toggleSideBar";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import { AuthContextAPI } from "../../context/authContext";
+import { deleteTokenFromLocalStorage } from "../../utils/localStorage";
 
 const SideBar = () => {
   const toggleContextData = useContext(SideBarContextAPI);
@@ -13,7 +13,6 @@ const SideBar = () => {
 
   return (
     <>
-      <MobileSideBar />;
       <div className="wrapper">
         <div className="sidebar">
           <ul>
@@ -38,7 +37,10 @@ const SideBar = () => {
             )}
             {user.user && (
               <li
-                onClick={() => setUser({ user: "", token: "", loading: false })}
+                onClick={() => {
+                  setUser({ user: "", token: "", loading: false });
+                  deleteTokenFromLocalStorage();
+                }}
               >
                 <Link to="/" className="active">
                   <span className="icon">

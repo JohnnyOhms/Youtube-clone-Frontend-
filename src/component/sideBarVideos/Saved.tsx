@@ -34,7 +34,55 @@ const Saved = () => {
       });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {};
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    Axios.get(`/videos?search=${inputValue}`)
+      .then((res) => {
+        setSavedVideos(res.data.videos);
+      })
+      .catch((err) => {
+        alert("something went wrong, try again");
+      });
+  };
+  const latest = () => {
+    Axios.get(`/videos?sort=latest`)
+      .then((res) => {
+        setSavedVideos(res.data.videos);
+      })
+      .catch((err) => {
+        alert("something went wrong, try again");
+      });
+  };
+
+  const oldest = () => {
+    Axios.get(`/videos?sort=oldest`)
+      .then((res) => {
+        setSavedVideos(res.data.videos);
+      })
+      .catch((err) => {
+        alert("something went wrong, try again");
+      });
+  };
+
+  const AtoZ = () => {
+    Axios.get(`/videos?sort=a-z}`)
+      .then((res) => {
+        setSavedVideos(res.data.videos);
+      })
+      .catch((err) => {
+        alert("something went wrong, try again");
+      });
+  };
+
+  const ZtoA = () => {
+    Axios.get(`/videos?sort=z-a`)
+      .then((res) => {
+        setSavedVideos(res.data.videos);
+      })
+      .catch((err) => {
+        alert("something went wrong, try again");
+      });
+  };
 
   return (
     <React.Fragment>
@@ -65,16 +113,28 @@ const Saved = () => {
           >
             <Typography sx={{ color: "white" }}>Filter by</Typography>
             <ButtonGroup variant="outlined" aria-label="outlined button group">
-              <Button sx={{ borderColor: "#df3434", color: "white" }}>
+              <Button
+                sx={{ borderColor: "#df3434", color: "white" }}
+                onClick={latest}
+              >
                 latest
               </Button>
-              <Button sx={{ borderColor: "#df3434", color: "white" }}>
+              <Button
+                sx={{ borderColor: "#df3434", color: "white" }}
+                onClick={oldest}
+              >
                 oldest
               </Button>
-              <Button sx={{ borderColor: "#df3434", color: "white" }}>
+              <Button
+                sx={{ borderColor: "#df3434", color: "white" }}
+                onClick={AtoZ}
+              >
                 A-Z
               </Button>
-              <Button sx={{ borderColor: "#df3434", color: "white" }}>
+              <Button
+                sx={{ borderColor: "#df3434", color: "white" }}
+                onClick={ZtoA}
+              >
                 Z-A
               </Button>
             </ButtonGroup>

@@ -3,8 +3,9 @@ export const deleteTokenFromLocalStorage = () => {
 };
 
 export const getTokenFromLocalStorage = () => {
-  if (localStorage.getItem("token")) {
-    return JSON.parse(localStorage.getItem("token"));
+  const storage = localStorage.getItem("token");
+  if (storage) {
+    return JSON.parse(storage);
   }
   return "No Token Available";
 };

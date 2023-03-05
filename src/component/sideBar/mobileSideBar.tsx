@@ -16,6 +16,7 @@ import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import { AuthContextAPI } from "../../context/authContext";
+import { deleteTokenFromLocalStorage } from "../../utils/localStorage";
 
 type Anchor = "left";
 
@@ -86,7 +87,7 @@ export default function MobileSideBar() {
                 <ListItemIcon sx={{ color: "white" }}>
                   <MeetingRoomIcon />
                 </ListItemIcon>
-                <ListItemText primary="login" />
+                <ListItemText primary="Login" />
               </ListItemButton>
             </ListItem>
           </Link>
@@ -95,14 +96,17 @@ export default function MobileSideBar() {
           <Link
             to="/"
             style={{ color: "white" }}
-            onClick={() => setUser({ user: "", token: "", loading: false })}
+            onClick={() => {
+              setUser({ user: "", token: "", loading: false });
+              deleteTokenFromLocalStorage();
+            }}
           >
             <ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon sx={{ color: "white" }}>
                   <MeetingRoomIcon />
                 </ListItemIcon>
-                <ListItemText primary="log Out" />
+                <ListItemText primary="Log out" />
               </ListItemButton>
             </ListItem>
           </Link>

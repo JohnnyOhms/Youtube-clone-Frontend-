@@ -7,7 +7,12 @@ const Context = ({ children }: any) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [savedVideos, setSavedVideos] = useState<[]>([]);
   const [display, setDisplay] = useState<boolean>(false);
-  const [singleDel, setSingleDel] = useState<string>("");
+  const [apiData, setApiData] = useState({
+    title: "",
+    channel: "",
+    thumbnail: "",
+    videoId: "",
+  });
 
   const contextData = {
     inputValue,
@@ -18,8 +23,8 @@ const Context = ({ children }: any) => {
     setSavedVideos,
     display,
     setDisplay,
-    singleDel,
-    setSingleDel,
+    apiData,
+    setApiData,
   };
 
   ContextAPI = createContext(contextData);

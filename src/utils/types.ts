@@ -78,8 +78,20 @@ export interface contextType {
   setSavedVideos: React.Dispatch<React.SetStateAction<any>>;
   display: boolean;
   setDisplay: React.Dispatch<React.SetStateAction<boolean>>;
-  singleDel: string;
-  setSingleDel: React.Dispatch<React.SetStateAction<string>>;
+  apiData: {
+    title: string;
+    channel: string;
+    thumbnail: string;
+    videoId: any;
+  };
+  setApiData: React.Dispatch<
+    React.SetStateAction<{
+      title: string;
+      channel: string;
+      thumbnail: string;
+      videoId: any;
+    }>
+  >;
 }
 
 export interface AuthcontextType {

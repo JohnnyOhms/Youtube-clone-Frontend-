@@ -21,7 +21,7 @@ export const sideBarItem: sideBarItemDetails[] = [
     icon: LocalFireDepartmentIcon,
   },
   {
-    name: "Saved",
+    name: "Saved Videos",
     icon: OndemandVideoIcon,
   },
 ];

@@ -22,6 +22,7 @@ export default function Video({
   const navigate = useNavigate();
   const videos = useAppSelector((state) => state.video.videoResult);
   const dataContext = useContext<contextType>(ContextAPI);
+  const { setApiData } = dataContext;
 
   const handleClick = () => {
     const singleVideo = videos?.find((item) => item.id.videoId === id);
@@ -29,6 +30,12 @@ export default function Video({
       dataContext.avatarImg = singleVideo.snippet.thumbnails.high.url;
       dataContext.channelId = singleVideo.snippet.channelId;
     }
+    setApiData({
+      title: title,
+      channel: channel,
+      thumbnail: imageUrl,
+      videoId: id,
+    });
 
     return navigate(`/video/${id}`);
   };

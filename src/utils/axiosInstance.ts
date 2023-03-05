@@ -7,7 +7,6 @@ export const Axios: AxiosInstance = axios.create({
 
 Axios.interceptors.request.use((config: AxiosRequestConfig | any) => {
   const accessToken = getTokenFromLocalStorage();
-
   config.headers = config.headers || {};
   config.headers["authorization"] = `Bearer ${accessToken}`;
 

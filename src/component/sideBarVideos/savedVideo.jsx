@@ -44,9 +44,6 @@ const SavedVideo = ({
     })
       .then((res) => {
         alert(res.data.videos._id + " deleted");
-        // setSingleDel(res.data.videos._id)
-        //  savedVideos = savedVideos.filter((item) => item._id !== singleDel);
-        // navigate(`/saved_videos`);
         refreshList()
       })
       .catch((err) => alert(err));

@@ -14,12 +14,19 @@ import Navbar from "../Navbar/Navbar";
 import { RelatedVideoAPI } from "../../slice/getRelatedVideo";
 import { ContextAPI } from "../../context/context";
 import { Axios } from "../../utils/axiosInstance";
+import MobileSideBar from "../sideBar/mobileSideBar";
 
 const PlayVideo = (): JSX.Element => {
   const { videoId } = useParams();
   const dispatch = useAppDispatch();
   const dataContext = useContext<contextType>(ContextAPI);
+  const { apiData, setApiData } = dataContext;
   const navigate = useNavigate();
+
+  const video: videoResult<null> = useAppSelector(
+    (state) => state.video.videoResult
+  );
+
   useEffect(() => {
     dispatch(videoAPI(`videos?part=snippet,statistics&id=${videoId}`));
     // related videos
@@ -30,9 +37,20 @@ const PlayVideo = (): JSX.Element => {
     );
   }, [dispatch]);
 
-  const video: videoResult<null> = useAppSelector(
-    (state) => state.video.videoResult
-  );
+  useEffect(() => {
+    if (apiData.title) {
+      return;
+    }
+    if (video) {
+      setApiData({
+        title: video[0].snippet.title,
+        channel: video[0].snippet.channelTitle,
+        thumbnail: dataContext.avatarImg,
+        videoId: videoId,
+      });
+    }
+  }, [video]);
+
   let relatedVideo: videoResult<null> = useAppSelector(
     (state) => state.relatedVideo.videoResult
   );
@@ -55,24 +73,23 @@ const PlayVideo = (): JSX.Element => {
 
   const handleClick = () => {
     navigate(`/channel/${dataContext.channelId}`);
-    console.log("ok");
   };
 
   const SaveVideo = () => {
     if (video) {
       Axios.post("/videos", {
-        title: video[0].snippet.title,
-        channel: video[0].snippet.channelTitle,
-        thumbnail: dataContext.avatarImg,
-        videoId,
+        title: apiData.title,
+        channel: apiData.channel,
+        thumbnail: apiData.thumbnail,
+        videoId: apiData.videoId,
       })
         .then((res) => {
           dataContext.setSavedVideos((prev: any) => {
             return [...prev, res.data.videos];
           });
-          alert("video saved, check on the saved bar to watch later");
+          alert("Video saved, check on the saved bar to watch later");
         })
-        .catch((err) => alert(err.response.data));
+        .catch((err) => console.log(err));
     }
   };
 
@@ -81,7 +98,6 @@ const PlayVideo = (): JSX.Element => {
       sx={{
         width: { sm: "100%", md: "100%", lg: "60rem" },
         height: "34rem",
-        // height: { sm: "", md: "30rem", lg: "35rem" },
         margin: { sm: 0, md: "20px", lg: "30px" },
         maxWidth: "60rem",
       }}
@@ -195,6 +211,7 @@ const PlayVideo = (): JSX.Element => {
   return (
     <React.Fragment>
       <Navbar />
+      <MobileSideBar />
       <div className="playVideo">
         <Stack
           sx={{

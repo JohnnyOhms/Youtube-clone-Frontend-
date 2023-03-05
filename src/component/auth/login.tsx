@@ -15,7 +15,7 @@ const Login = () => {
     authMssg: "",
   });
   const navigate = useNavigate();
-  const { setUser } = useContext(AuthContextAPI);
+  const { setUser, user } = useContext(AuthContextAPI);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
