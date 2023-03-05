@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { getTokenFromLocalStorage } from "./localStorage";
 
 export const Axios: AxiosInstance = axios.create({
-  baseURL: "http://localhost:5000/api/v1",
+  baseURL: "https://youtubev2-server.onrender.com/",
 });
 
 Axios.interceptors.request.use((config: AxiosRequestConfig | any) => {
