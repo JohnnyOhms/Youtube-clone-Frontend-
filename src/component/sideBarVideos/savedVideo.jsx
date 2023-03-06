@@ -1,4 +1,4 @@
-import {useContext} from "react"
+import { useContext } from "react";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardActions from "@mui/material/CardActions";
@@ -9,25 +9,19 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useNavigate } from "react-router-dom";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Axios } from "../../utils/axiosInstance";
-import { ContextAPI } from "../../context/context"
+import { ContextAPI } from "../../context/context";
 
-const SavedVideo = ({
-  channel,
-  title,
-  createdAt,
-  _id,
-  thumbnail,
-  videoId,
-}) => {
+const SavedVideo = ({ channel, title, createdAt, _id, thumbnail, videoId }) => {
   const navigate = useNavigate();
-  const {singleDel, setSingleDel, savedVideos,setSavedVideos, setDisplay} = useContext(ContextAPI)
+  const { singleDel, setSingleDel, savedVideos, setSavedVideos, setDisplay } =
+    useContext(ContextAPI);
 
   const handleClick = () => {
     navigate(`/video/${videoId}`);
   };
 
   const refreshList = () => {
-     setDisplay(false);
+    setDisplay(false);
     Axios.get("/videos")
       .then((res) => {
         setSavedVideos(res.data.videos);
@@ -36,7 +30,7 @@ const SavedVideo = ({
         alert("failed to load, refreash page");
         navigate("/");
       });
-  }
+  };
 
   const handleDelete = () => {
     Axios.post(`/videos/single-delete`, {
@@ -44,7 +38,7 @@ const SavedVideo = ({
     })
       .then((res) => {
         alert(res.data.videos._id + " deleted");
-        refreshList()
+        refreshList();
       })
       .catch((err) => alert(err));
   };
@@ -69,7 +63,8 @@ const SavedVideo = ({
             borderRadius: "1rem",
             cursor: "pointer",
             background: "grey",
-            width: 700,
+            width: { xs: "10rem", sm: 700, md: 700 },
+            minWidth: "10rem",
           }}
           onClick={handleClick}
         />
