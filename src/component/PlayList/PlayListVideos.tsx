@@ -54,7 +54,8 @@ const PlayListVideo = ({
             borderRadius: "1rem",
             cursor: "pointer",
             background: "grey",
-            width: 700,
+            width: { xs: "10rem", sm: 700, md: 700 },
+            minWidth: "10rem",
           }}
           onClick={handleClick}
         />

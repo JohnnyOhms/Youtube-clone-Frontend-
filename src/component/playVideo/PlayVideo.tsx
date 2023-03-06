@@ -85,7 +85,15 @@ const PlayVideo = (): JSX.Element => {
           });
           alert("Video saved, check on the saved bar to watch later");
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          if (err.message === "Request failed with status code 500") {
+            alert("video already saved in Database");
+          } else {
+            alert(err.message);
+          }
+
+          console.log(err);
+        });
     }
   };
 
