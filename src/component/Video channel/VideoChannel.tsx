@@ -48,24 +48,55 @@ const VideoChannel = () => {
 
   type details = string | undefined;
 
-  let title: details,
-    customUrl: details,
-    banner: details,
-    imgUrl: details,
-    viewCount: details,
+  type Details = {
+    title: details;
+    customUrl: details;
+    banner: details;
+    imgUrl: details;
+    viewCount: details;
     subscribers: details;
+  };
+  const [details, setDetails] = useState<Details>({
+    title: "",
+    customUrl: "",
+    banner: "",
+    imgUrl: "",
+    viewCount: "",
+    subscribers: "",
+  });
 
   let displayChannel: JSX.Element;
 
-  if (channelDetails && channelDetails.length >= 1) {
-    title = channelDetails[0].snippet.localized?.title;
-    customUrl = channelDetails[0].snippet.customUrl;
-    viewCount = channelDetails[0].statistics.viewCount;
-    subscribers = channelDetails[0].statistics.subscriberCount;
-    // banner = channelDetails[0].brandingSettings.image.bannerExternalUrl;
-    imgUrl = channelDetails[0].snippet.thumbnails.high.url;
-  }
+  useEffect(() => {
+    if (channelDetails !== null && channelDetails.length >= 1) {
+      setDetails({
+        title:
+          channelDetails[0].snippet.localized?.title !== undefined
+            ? channelDetails[0].snippet.localized?.title
+            : "Title",
+        customUrl:
+          channelDetails[0].snippet.customUrl !== undefined
+            ? channelDetails[0].snippet.customUrl
+            : "@name",
+        viewCount:
+          channelDetails[0].statistics.viewCount !== undefined
+            ? channelDetails[0].statistics.viewCount
+            : "channel views",
+        subscribers:
+          channelDetails[0].statistics.subscriberCount !== undefined
+            ? channelDetails[0].statistics.subscriberCount
+            : "Subscribers",
+        // banner: channelDetails[0].brandingSettings.image.bannerExternalUrl,
+        banner: "",
+        imgUrl:
+          channelDetails[0].snippet.thumbnails.high.url !== undefined
+            ? channelDetails[0].snippet.thumbnails.high.url
+            : "C",
+      });
+    }
+  }, [channelDetails]);
 
+  const { title, customUrl, viewCount, subscribers, banner, imgUrl } = details;
   const ShowChannelDetails: JSX.Element = (
     <Box
       // minHeight="95vh"
@@ -79,7 +110,7 @@ const VideoChannel = () => {
           style={{
             height: "200px",
             background:
-              // `url(${banner})` ||
+              //  `url(${ banner })`
               " linear-gradient(to right top, #052737, #0e4961, #146f8e, #1697bc, #12c2eb)",
             backgroundPosition: "center",
             backgroundSize: "cover",

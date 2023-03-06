@@ -71,10 +71,6 @@ const PlayVideo = (): JSX.Element => {
     date = video[0].snippet.publishTime;
   }
 
-  const handleClick = () => {
-    navigate(`/channel/${dataContext.channelId}`);
-  };
-
   const SaveVideo = () => {
     if (video) {
       Axios.post("/videos", {
@@ -114,7 +110,6 @@ const PlayVideo = (): JSX.Element => {
           spacing={2}
           margin="20px"
           sx={{ cursor: "pointer" }}
-          onClick={handleClick}
         >
           <Avatar
             sx={{
